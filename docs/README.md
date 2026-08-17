@@ -1,7 +1,7 @@
-# DirectX11による3Dゲーム開発フレームワーク
+# DirectX11による3Dゲーム制作プロジェクト
 
-DirectX11 3Dゲームのフレームワーク作成<br>
-開発環境：Visual Studio 2022 / 2026
+DirectX11 3Dアクションゲーム開発<br>
+開発環境：Visual Studio 2026
 
 ---
 ## ブランチ

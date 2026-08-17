@@ -4,15 +4,33 @@
 *
 * 　@author  : @akitsuki-35（https://github.com/akitsuki-35）
 * 　@date	 : 2026/07/27
-*	@updated : 2026/08/04
+*	@updated : 2026/08/15
 *============================================================*/
 #pragma once
 
 #include "Component.h"
-#include "DeviceManager.h"
-#include "ShaderManager.h"
+#include <string>
 #include <DirectXMath.h>
 
+/*------------------------------------------------------------
+	前方宣言
+------------------------------------------------------------*/
+class Vector3;
+class Shader;
+
+/*------------------------------------------------------------
+	ブレンドステート
+------------------------------------------------------------*/
+enum class Blend : uint8_t
+{
+	Default,
+	Add,
+	Multiply
+};
+
+/*------------------------------------------------------------
+	ソート用構造体
+------------------------------------------------------------*/
 // 描画レイヤー
 enum class Layer : uint8_t
 {
@@ -31,8 +49,9 @@ struct SORTKEY
 
 	bool operator<(const SORTKEY& key) const
 	{
-		if (layer != key.layer)
+		if (layer != key.layer) {
 			return layer < key.layer;
+		}
 
 		return Zdepth > key.Zdepth;
 	}
@@ -48,37 +67,60 @@ protected:
 	// シェーダー
 	Shader* _mShader{ nullptr };
 
+	// カラー
+	DirectX::XMFLOAT4 mColor{ 1.0f, 1.0f, 1.0f, 1.0f };
+
+	// ブレンドステート
+	Blend mBlendState{};
+
 	// ソート用情報
-	SORTKEY mSortKey{};
+	mutable SORTKEY mSortKey{};
 
-	void Bind() const {
-		auto context = D3D11::DeviceManager::getInstance().GetContext();
-
-		// 入力レイアウト設定
-		context->IASetInputLayout(_mShader->GetLayout());
-
-		// シェーダー設定
-		context->VSSetShader(_mShader->GetVertexShader(), nullptr, 0);
-		context->PSSetShader(_mShader->GetPixelShader(), nullptr, 0);
-	}
+	virtual void Bind() const;
 
 public:
+	Renderer() {
+		mBlendState = Blend::Default;
+	}
+
 	Renderer(GameObject* owner)
-		: Component(owner){}
+		: Component(owner){
+		mBlendState = Blend::Default;
+	}
+
+	void Finalize() override {
+		_mShader = nullptr;
+	}
 
 	// 描画
 	virtual void Draw() const = 0;
 
 	// シェーダー読み込み
-	void LoadShader(const std::string& keyName) {
-		_mShader = ShaderManager::getInstance().Get(keyName);
-	}
+	Renderer* LoadShader(const std::string& keyName);
+
+	// ブレンドステート指定
+	Renderer* SetBlendState(const Blend& state);
+
+	// レイヤー指定
+	Renderer* SetLayer(const Layer& layer);
+
+	// Zソート用
+	virtual void CalcCameraZ(Vector3 cameraPosition, Vector3 cameraForward) const;
+	void SetZdepth(float z) { mSortKey.Zdepth = z; }
 
 	// ゲッター
 	Shader* GetShader() const { return _mShader; }
-	SORTKEY& GetSortKey() { return mSortKey; }
+	DirectX::XMFLOAT4 GetColor() const { return mColor; }
+	SORTKEY& GetSortKey() const { return mSortKey; }
+
+	// セッター
+	Renderer* SetColor(const DirectX::XMFLOAT4 color);
 
 private:
 	// ワールド行列取得
-	virtual DirectX::XMMATRIX GetWorldMatrix() const = 0;
+	virtual DirectX::XMMATRIX getWorldMatrix() const = 0;
+
+protected:
+	void Begin() const;
+	void End() const;
 };

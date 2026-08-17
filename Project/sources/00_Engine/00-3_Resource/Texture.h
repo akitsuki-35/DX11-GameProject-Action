@@ -8,9 +8,13 @@
 *============================================================*/
 #pragma once
 
-#include <d3d11.h>
 #include <DirectXMath.h>
 #include <wrl/client.h>
+
+/*------------------------------------------------------------
+	前方宣言
+------------------------------------------------------------*/
+struct ID3D11ShaderResourceView;
 
 /*============================================================
 *	@class	: Texture
@@ -19,6 +23,7 @@
 class Texture
 {
 	friend class TextureManager;
+	friend class FontManager;
 	friend class AssimpLoader;
 
 	template <typename T>

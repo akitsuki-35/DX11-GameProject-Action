@@ -7,31 +7,65 @@
 *	@updated : 2026/08/07
 *============================================================*/
 #include "Animator.h"
-#include "Skeleton.h"
+#include "Model.h"
 #include "BoneTransform.h"
+#include "AnimationManager.h"
+#include "ModelRenderer.h"
+#include "GameObject.h"
 #include <cmath>
 using namespace DirectX;
 
-void Animator::Update(double dt)
+void Animator::Set(const std::string& keyName)
 {
-    if (!mAnimation || !mSkeleton) {
+    _mAnimation = AnimationManager::getInstance().Get(keyName);
+    assert(setSkeleton());
+    mCurrentTime = 0.0;
+}
+
+void Animator::Update(double deltaTime)
+{
+    if (!_mAnimation || !_mSkeleton) {
         return;
     }
 
     // Tickへ変換
-    mCurrentTime += dt * mAnimation->GetTicksPerSecond();
+    mCurrentTime += deltaTime * _mAnimation->GetTicksPerSecond();
 
     // アニメーションループ
-    if (mCurrentTime >= mAnimation->GetDuration()) {
-        mCurrentTime = std::fmod(mCurrentTime, mAnimation->GetDuration());
+    if (mCurrentTime >= _mAnimation->GetDuration()) {
+        mCurrentTime = std::fmod(mCurrentTime, _mAnimation->GetDuration());
     }
 
     // チャンネル更新
-    for (auto& channel : mAnimation->GetChannels()) {
+    for (auto& channel : _mAnimation->GetChannels()) {
         calculateBoneTransform(channel, mCurrentTime);
     }
 
-    mSkeleton->Update();
+    _mSkeleton->Update();
+}
+
+bool Animator::setSkeleton()
+{
+    Model* model{};
+
+    // オブジェクトのModelRendererコンポーネント取得
+    ModelRenderer* renderer = _mOwner->GetComponent<ModelRenderer>();
+
+    if (!renderer) {
+        return false;
+    }
+
+    // ModelRendererのモデル取得
+    model = renderer->GetModel();
+
+    if (!model) {
+        return false;
+    }
+
+    // モデルからスケルトンを取得
+    _mSkeleton = &model->GetSkeleton();
+
+    return true;
 }
 
 void Animator::calculateBoneTransform(const Animation::Channel& channel, double time)
@@ -47,11 +81,9 @@ void Animator::calculateBoneTransform(const Animation::Channel& channel, double 
     // スケール更新
     transform.Scale = calculateScale(channel.Scales, time);
 
-    auto& bone = mSkeleton->GetBone(channel.BoneIndex);
+    auto& bone = _mSkeleton->GetBone(channel.BoneIndex);
 
     XMMATRIX animLocal = transform.ToMatrix();
-    XMMATRIX bindLocal = XMLoadFloat4x4(&bone.BindLocal);
-
     XMMATRIX finalLocal = animLocal;
 
     XMStoreFloat4x4(&bone.Local, finalLocal);

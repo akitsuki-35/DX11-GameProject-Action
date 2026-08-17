@@ -11,8 +11,6 @@
 
 void Box::Initialize()
 {
-	mLayer = 1;
-
 	mTransform = Transform(
 		{ 0.0f, 0.0f, 0.0f },
 		{ 0.0f, 0.0f, 0.0f },
@@ -20,7 +18,7 @@ void Box::Initialize()
 	);
 
 	// コンポーネント読込
-	AddComponent<ModelRenderer>(this)->LoadModel("assets\\models\\box.obj")->LoadShader("Unlit");
+	AddComponent<ModelRenderer>(this)->LoadModel("assets\\models\\box.obj")->LoadShader("Directional");
 
 	// シェーダー読込
 }
@@ -30,9 +28,9 @@ void Box::Finalize()
 	GameObject::Finalize();
 }
 
-void Box::Update()
+void Box::Update(double deltaTime)
 {
-	GameObject::Update();
+	GameObject::Update(deltaTime);
 }
 
 void Box::Draw() const

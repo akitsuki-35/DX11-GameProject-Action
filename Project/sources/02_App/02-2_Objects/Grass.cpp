@@ -14,8 +14,6 @@ using namespace MeshType;
 
 void Grass::Initialize()
 {
-	mLayer = 2;
-
 	BillboardRenderer* drawable = AddComponent<BillboardRenderer>(this);
 
 	drawable->GetMesh().CreatePlane(Plane::Pivot::CenterBottom, Plane::Axis::XY);
@@ -33,9 +31,9 @@ void Grass::Finalize()
 	GameObject::Finalize();
 }
 
-void Grass::Update()
+void Grass::Update(double deltaTime)
 {
-	GameObject::Update();
+	GameObject::Update(deltaTime);
 }
 
 void Grass::Draw() const

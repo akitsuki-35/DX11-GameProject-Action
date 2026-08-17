@@ -43,7 +43,7 @@ public:
         double Time{};
     };
 
-    // チャンネル
+    // アニメーションチャンネル
     struct Channel
     {
         // ボーン番号
@@ -55,13 +55,14 @@ public:
     };
 
 private:
-    double mDuration{};
-    double mTicksPerSecond{};
+    double mDuration{}; // 総再生時間
+    double mTicksPerSecond{}; // 1秒あたりのTick数
 
+    // チャンネル
     std::vector<Channel> mChannels{};
 
 public:
-    void AddChannel(const Channel& channel) { mChannels.push_back(channel); }
+    void AddChannel(const Channel& channel);
     
     // ゲッター
     double GetDuration() const { return mDuration; }

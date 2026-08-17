@@ -9,11 +9,13 @@
 #include "ShaderManager.h"
 #include "DeviceManager.h"
 #include "Utility.h"
+#include <d3d11.h>
 
 using namespace Microsoft::WRL;
 
 Shader* ShaderManager::Get(const std::string& keyName)
 {
+	// キャッシュが存在すれば返す
 	auto it = mShaders.find(keyName);
 
 	if (it != mShaders.end()) {
@@ -34,7 +36,7 @@ Shader* ShaderManager::Register(const std::string& keyName, const char* vsPath, 
 	std::string vsKey = Utility::File::normalizePath(vsPath);
 	std::string psKey = Utility::File::normalizePath(psPath);
 
-	auto shader = std::make_unique<Shader>();
+	std::unique_ptr<Shader> shader = std::make_unique<Shader>();
 	
 	// 頂点シェーダー作成
 	if (mVSCache.contains(vsKey)) {
@@ -75,7 +77,7 @@ Shader* ShaderManager::Register(const std::string& keyName, const char* vsPath, 
 
 	// ピクセルシェーダー作成
 	if (mPSCache.contains(psKey)) {
-		shader->_mPixelShader = mShaders[psKey]->_mPixelShader;
+		shader->_mPixelShader = mPSCache[psKey];
 	}
 	else {
 		auto psBuffer = Utility::File::load(psPath);
@@ -94,4 +96,12 @@ Shader* ShaderManager::Register(const std::string& keyName, const char* vsPath, 
 	mShaders[keyName] = std::move(shader);
 
 	return mShaders[keyName].get();
+}
+
+void ShaderManager::Clear()
+{
+	mShaders.clear();
+	mVSCache.clear();
+	mPSCache.clear();
+	mLayoutCache.clear();
 }

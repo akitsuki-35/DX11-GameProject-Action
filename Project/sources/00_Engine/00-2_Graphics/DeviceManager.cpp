@@ -157,8 +157,13 @@ bool D3D11::DeviceManager::generateDepthStencilState()
 	hr = _mDevice->CreateDepthStencilState(&depthStencilDesc, &_mDepthEnable);
 	if (FAILED(hr)) { return false; }
 
-	// 深度無効ステート
+	// テストのみ
 	depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+	hr = _mDevice->CreateDepthStencilState(&depthStencilDesc, &_mDepthTestOnly);
+	if (FAILED(hr)) { return false; }
+
+	// 深度無効
+	depthStencilDesc.DepthEnable = FALSE;
 	hr = _mDevice->CreateDepthStencilState(&depthStencilDesc, &_mDepthDisable);
 	if (FAILED(hr)) { return false; }
 
@@ -186,8 +191,8 @@ bool D3D11::DeviceManager::generateBlendState()
 	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
-	// アルファブレンド
-	hr = _mDevice->CreateBlendState(&blendDesc, &_mBlendAlpha);
+	// 通常（アルファブレンド）
+	hr = _mDevice->CreateBlendState(&blendDesc, &_mBlendDefault);
 	if (FAILED(hr)) { return false; }
 
 	// 加算
@@ -196,13 +201,14 @@ bool D3D11::DeviceManager::generateBlendState()
 	if (FAILED(hr)) { return false; }
 
 	// 乗算
-	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_SRC_ALPHA;
-	blendDesc.AlphaToCoverageEnable = TRUE;
-	hr = _mDevice->CreateBlendState(&blendDesc, &_mBlendATC);
+	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_INV_SRC_ALPHA;
+	hr = _mDevice->CreateBlendState(&blendDesc, &_mBlendMultiply);
 	if (FAILED(hr)) { return false; }
 
 	float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
-	_mContext->OMSetBlendState(_mBlendAlpha.Get(), blendFactor, 0xffffffff);
+	_mContext->OMSetBlendState(_mBlendDefault.Get(), blendFactor, 0xffffffff);
 
 	return true;
 }
@@ -243,9 +249,9 @@ bool D3D11::DeviceManager::generateSamplerState()
 	----------------------------------------------------*/
 	D3D11_SAMPLER_DESC samplerDesc{};
 	samplerDesc.Filter = D3D11_FILTER_ANISOTROPIC;
-	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
 	samplerDesc.MaxAnisotropy = 4;
 	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
@@ -272,12 +278,13 @@ void D3D11::DeviceManager::renderStateRegister()
 {
 	// 深度ステート登録
 	RenderState::Depth::Enable = _mDepthEnable.Get();
+	RenderState::Depth::TestOnly = _mDepthTestOnly.Get();
 	RenderState::Depth::Disable = _mDepthDisable.Get();
 
 	// ブレンドステート登録
-	RenderState::Blend::Alpha = _mBlendAlpha.Get();
+	RenderState::Blend::Default = _mBlendDefault.Get();
 	RenderState::Blend::Add = _mBlendAdd.Get();
-	RenderState::Blend::ATC = _mBlendATC.Get();
+	RenderState::Blend::Multiply = _mBlendMultiply.Get();
 
 	// ラスタライザステート登録
 	RenderState::Raster::Solid = _mRasterSolid.Get();
@@ -287,4 +294,25 @@ void D3D11::DeviceManager::renderStateRegister()
 	RenderState::Sampler::Anisotropic = _mSamplerAnisotropic.Get();
 	RenderState::Sampler::Linear = _mSamplerLinear.Get();
 	RenderState::Sampler::Point = _mSamplerPoint.Get();
+}
+
+void D3D11::DeviceManager::SetDepthStencilState(ID3D11DepthStencilState* depthState)
+{
+	_mContext->OMSetDepthStencilState(depthState, NULL);
+}
+
+void D3D11::DeviceManager::SetBlendState(ID3D11BlendState* blendState)
+{
+	float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	_mContext->OMSetBlendState(blendState, blendFactor, 0xffffffff);
+}
+
+void D3D11::DeviceManager::SetRasterizerState(ID3D11RasterizerState* rasterizerState)
+{
+	_mContext->RSSetState(rasterizerState);
+}
+
+void D3D11::DeviceManager::SetSamplerState(ID3D11SamplerState* samplerState)
+{
+	_mContext->PSSetSamplers(0, 1, &samplerState);
 }

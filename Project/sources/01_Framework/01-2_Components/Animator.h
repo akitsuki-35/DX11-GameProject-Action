@@ -9,10 +9,14 @@
 #pragma once
 
 #include "Component.h"
-#include "GameObject.h"
-#include "AnimationManager.h"
-#include "ModelRenderer.h"
+#include "Animation.h"
+#include <string>
 #include <cassert>
+
+/*------------------------------------------------------------
+	前方宣言
+------------------------------------------------------------*/
+class Skeleton;
 
 /*============================================================
 *	@class	: Animator
@@ -21,44 +25,27 @@
 class Animator final : public Component
 {
 private:
-    class Skeleton* mSkeleton{};
-    class Animation* mAnimation{};
+    class Skeleton* _mSkeleton{};
+    class Animation* _mAnimation{};
     double mCurrentTime{};
 
 public:
     Animator(GameObject* owner)
         : Component(owner) {}
 
-    void Set(const std::string& keyName) {
-        mAnimation = AnimationManager::getInstance().Get(keyName);
-        assert(setSkeleton());
-        mCurrentTime = 0.0;
+    void Finalize() override {
+        _mSkeleton = nullptr;
+        _mAnimation = nullptr;
     }
-    void Update(double dt);
+
+    void Set(const std::string& keyName);
+    void Update(double deltaTime) override;
 
     // ゲッター
     double GetTime() const { return mCurrentTime; }
 
 private:
-    bool setSkeleton() {
-        Model* model{};
-
-        ModelRenderer* renderer = _mOwner->GetComponent<ModelRenderer>();
-
-        if (!renderer) {
-            return false;
-        }
-
-        model = renderer->GetModel();
-
-        if (!model) {
-            return false;
-        }
-
-        mSkeleton = &model->GetSkeleton();
-
-        return true;
-    }
+    bool setSkeleton();
 
     // ボーンアニメーション計算
     void calculateBoneTransform(const Animation::Channel& channel, double time);

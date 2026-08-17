@@ -25,24 +25,14 @@ public:
 	virtual ~Camera() = default;
 	void Initialize() override;
 	void Finalize() override;
-	void Update() override;
-	void Draw() const override;
+	void Update(double deltaTime) override;
 
 	DirectX::XMMATRIX GetViewMatrix() const { return mViewMatrix; }
 
-	Vector3 GetForward() const {
-		Vector3 forward = mTarget - mTransform.GetPosition();
-		forward.Normalize();
+	Vector3 GetForward() const;
 
-		return forward;
-	}
+	Vector3 GetRight() const;
 
-	Vector3 GetRight() const {
-		Vector3 forward = GetForward();
-		Vector3 up = Vector3(0.0f, 1.0f, 0.0f);
-		Vector3 right = Vector3::Cross(up, forward);
-		right.Normalize();
-
-		return right;
-	}
+	// カメラ行列のセット
+	void SetMatrix() const;
 };

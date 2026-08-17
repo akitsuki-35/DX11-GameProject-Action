@@ -9,19 +9,23 @@
 #pragma once
 
 #include "SpriteRenderer.h"
-#include "Game.h"
-#include "Camera.h"
+
+/*------------------------------------------------------------
+	前方宣言
+------------------------------------------------------------*/
+class Texture;
 
 /*============================================================
 *	@class	: BillboardRenderer
 *	@brief	: 板ポリゴン描画
 *============================================================*/
-class BillboardRenderer final : public SpriteRenderer
+class BillboardRenderer : public SpriteRenderer
 {
-private:
+	friend class ParticleEmitter;
+
+protected:
 	Mesh mMesh{}; // メッシュ
 	Element::MATERIAL mMaterial{}; // マテリアル
-	Texture* _mTexture{ nullptr }; // テクスチャ
 
 public:
 	BillboardRenderer(GameObject* owner)
@@ -32,11 +36,12 @@ public:
 
 	~BillboardRenderer() override = default;
 
-private:
-	// ワールド行列取得
-	DirectX::XMMATRIX GetWorldMatrix() const override {
-		Camera* camera = Game::GetGameObject<Camera>();
-		return _mOwner->GetTransform().GetBillboardMatrix(camera->GetViewMatrix());
+	void Finalize() override {
+		_mTexture = nullptr;
+		SpriteRenderer::Finalize();
 	}
 
+protected:
+	// ワールド行列取得
+	DirectX::XMMATRIX getWorldMatrix() const override;
 };

@@ -8,11 +8,19 @@
 *============================================================*/
 #pragma once
 
-#include "Texture.h"
 #include <string>
 #include <memory>
 #include <unordered_map>
 
+/*------------------------------------------------------------
+	前方宣言
+------------------------------------------------------------*/
+class Texture;
+
+/*============================================================
+*	@class	: TextureManager
+*	@brief	: テクスチャのロード・管理
+*============================================================*/
 class TextureManager final
 {
 /*--------------------------------------------------
@@ -46,9 +54,7 @@ public:
 	Texture* Load(const char* texturePath);
 
 	// クリア
-	void Clear() {
-		mTextures.clear();
-	}
+	void Clear();
 
 private:
 	// テクスチャ生成

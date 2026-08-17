@@ -11,8 +11,6 @@
 
 void Enemy::Initialize()
 {
-	mLayer = 1;
-
 	mTransform = Transform(
 		{ 0.0f, 0.0f, 0.0f },
 		{ 0.0f, 0.0f, 0.0f },
@@ -23,7 +21,7 @@ void Enemy::Initialize()
 	mAccel = { 0.0f, 0.0f, 0.0f };
 
 	// コンポーネント読込
-	AddComponent<ModelRenderer>(this)->LoadModel("assets\\models\\player.obj")->LoadShader("Unlit");
+	AddComponent<ModelRenderer>(this)->LoadModel("assets\\models\\player.obj")->LoadShader("Directional");
 }
 
 void Enemy::Finalize()
@@ -31,9 +29,9 @@ void Enemy::Finalize()
 	GameObject::Finalize();
 }
 
-void Enemy::Update()
+void Enemy::Update(double deltaTime)
 {
-	GameObject::Update();
+	GameObject::Update(deltaTime);
 }
 
 void Enemy::Draw() const

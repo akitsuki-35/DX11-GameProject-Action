@@ -6,14 +6,14 @@
 * 　@date	 : 2026/04/21
 *	@updated : 2026/08/04
 *============================================================*/
-
 #include "SceneManager.h"
 #include "Graphics.h"
+#include "Transition.h"
 #include "Input.h"
 #include "Game.h"
 #include "Title.h"
 #include "Scene.h"
-#include "Audio.h"
+#include "AudioPlayer.h"
 
 /*------------------------------------------------------------
 	初期化
@@ -21,8 +21,9 @@
 void SceneManager::Initialize()
 {
 	D3D11::Graphics::getInstance().Initialize();
+	Transition::getInstance().Initialize();
 	Input::Initialize();
-	Audio::InitMaster();
+	AudioPlayer::InitializeMaster();
 
 	SceneChange<Game>();
 	mCurrentScene = std::move(mNextScene);
@@ -46,7 +47,7 @@ void SceneManager::Finalize()
 		mCurrentScene->Initialize();
 	}
 
-	Audio::UninitMaster();
+	AudioPlayer::FinalizeMaster();
 	Input::Finalize();
 	D3D11::Graphics::getInstance().Finalize();
 }
@@ -54,11 +55,12 @@ void SceneManager::Finalize()
 /*------------------------------------------------------------
 	更新
 ------------------------------------------------------------*/
-void SceneManager::Update()
+void SceneManager::Update(double deltaTime)
 {
+	Transition::getInstance().Update(deltaTime);
 	Input::Update();
 
-	if(mCurrentScene) mCurrentScene->Update(1.0/60.0);
+	if(mCurrentScene) mCurrentScene->Update(deltaTime);
 
 	if (mNextScene)
 	{
@@ -73,6 +75,7 @@ void SceneManager::Update()
 
 		mCurrentScene->Initialize();
 	}
+
 }
 
 /*------------------------------------------------------------
@@ -83,6 +86,8 @@ void SceneManager::Draw()
 	D3D11::Graphics::getInstance().Begin();
 
 	if(mCurrentScene) mCurrentScene->Draw();
+
+	Transition::getInstance().Draw();
 
 	D3D11::Graphics::getInstance().End();
 }

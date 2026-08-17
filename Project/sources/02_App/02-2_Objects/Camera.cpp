@@ -17,24 +17,22 @@ using namespace DirectX;
 
 void Camera::Initialize()
 {
-	mLayer = 0;
-
 	mTransform.SetPosition({ 0.0f, 5.0f, -10.0f });
 
-	//mPosition = Vector3(0.0f, 5.0f, -10.0f);
 	mTarget = Vector3(0.0f, 0.0f, 0.0f);
 }
 
 void Camera::Finalize()
 {
+	GameObject::Finalize();
 }
 
-void Camera::Update()
+void Camera::Update(double deltaTime)
 {
+	float dt = static_cast<float>(deltaTime);
+
 	Player* player = Game::GetGameObject<Player>();
 	Vector3 playerPos = player->GetTransform().GetPosition();
-
-	float dt = 1.0f / 60.0f;
 
 	Vector3 rotation = mTransform.GetRotation();
 
@@ -56,7 +54,25 @@ void Camera::Update()
 		XMLoadFloat3((XMFLOAT3*)&mTarget), XMLoadFloat3(&up));
 }
 
-void Camera::Draw() const
+Vector3 Camera::GetForward() const
+{
+	Vector3 forward = mTarget - mTransform.GetPosition();
+	forward.Normalize();
+
+	return forward;
+}
+
+Vector3 Camera::GetRight() const
+{
+	Vector3 forward = GetForward();
+	Vector3 up = Vector3(0.0f, 1.0f, 0.0f);
+	Vector3 right = Vector3::Cross(up, forward);
+	right.Normalize();
+
+	return right;
+}
+
+void Camera::SetMatrix() const
 {
 	// プロジェクション行列設定
 	XMMATRIX projection = XMMatrixPerspectiveFovLH(1.0f,

@@ -21,14 +21,14 @@ void D3D11::BufferManager::Initialize()
 	_mProjection = generateBuffer(sizeof(DirectX::XMMATRIX));
 	_mMaterial = generateBuffer(sizeof(Element::MATERIAL));
 	_mLight = generateBuffer(sizeof(Element::LIGHT));
-	_mBones = generateBuffer(sizeof(BoneBuffer));
+	_mBones = generateBuffer(sizeof(Element::BONE));
 
 	// ライト初期化
 	Element::LIGHT light{};
 	light.Enable = true;
-	light.Direction = XMFLOAT4(0.0f, -1.0f, 0.0f, 0.0f);
+	light.Direction = XMFLOAT4(1.0f, -1.0f, 0.0f, 0.0f);
 	light.Ambient = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);
-	light.Diffuse = XMFLOAT4(1.5f, 1.5f, 1.5f, 1.0f);
+	light.Diffuse = XMFLOAT4(0.1f, 0.1f, 0.1f, 1.0f);
 	D3D11::BufferManager::getInstance().SetLight(light);
 
 	// マテリアル初期化
@@ -49,7 +49,7 @@ Microsoft::WRL::ComPtr<ID3D11Buffer> D3D11::BufferManager::generateBuffer(UINT s
 	bufferDesc.MiscFlags = 0;
 	bufferDesc.StructureByteStride = sizeof(float);
 
-	ComPtr<ID3D11Buffer> buffer;
+	ComPtr<ID3D11Buffer> buffer{};
 	D3D11::DeviceManager::getInstance().
 		GetDevice()->CreateBuffer(&bufferDesc, nullptr, &buffer);
 
@@ -134,11 +134,11 @@ void D3D11::BufferManager::SetLight(Element::LIGHT light)
 
 void D3D11::BufferManager::SetBoneMatrices(const Skeleton& skeleton)
 {
-	BoneBuffer buffer{};
+	Element::BONE buffer{};
 
 	const auto& matrices = skeleton.GetSkinningMatrices();
 
-	const size_t count = std::min(matrices.size(),static_cast<size_t>(MaxBones));
+	const size_t count = std::min(matrices.size(),static_cast<size_t>(Element::MAX_BONES));
 
 	for (size_t i = 0; i < count; i++) {
 		DirectX::XMMATRIX matrix = DirectX::XMLoadFloat4x4(&matrices[i]);

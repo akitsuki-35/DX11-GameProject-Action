@@ -23,14 +23,14 @@ void Player::Initialize()
 	mTransform = Transform(
 		{ 0.0f, 0.0f, 0.0f },
 		{ 0.0f, 0.0f, 0.0f },
-		{ 1.0f, 1.0f, 1.0f }
+		{ 1.5f, 1.5f, 1.5f }
 	);		
 
 	mVelocity = { 0.0f, 0.0f, 0.0f };
 	mAccel = { 50.0f, 0.0f, 50.0f };
 
 	// コンポーネント読込
-	AddComponent<ModelRenderer>(this)->LoadModel("assets\\models\\Test.fbx")->
+	AddComponent<ModelRenderer>(this)->LoadModel("assets\\models\\Player.fbx")->
 		LoadShader("Directional");
 	AddComponent<Animator>(this)->Set("Take 001");
 
@@ -81,6 +81,7 @@ void Player::Update(double deltaTime)
 	}
 
 	float yaw = atan2f(mVelocity.x, mVelocity.z);
+	yaw += DirectX::XM_PI;
 	rotation.y = yaw;
 
 	// ジャンプ
@@ -90,18 +91,18 @@ void Player::Update(double deltaTime)
 
 			//スケールアニメーション
 			mTransform.SetScale({ 0.75f, 2.0f, 0.75f });
-			scale.y = 2.0f;
-			scale.x = 0.75f;
-			scale.z = 0.75f;
+			scale.y *= 2.0f;
+			scale.x *= 0.75f;
+			scale.z *= 0.75f;
 
 			mSE->Play();
 		}
 	}
 
 	// スケールを元に戻す
-	scale.x += (1.0f - scale.x) * 0.1f;
-	scale.y += (1.0f - scale.y) * 0.1f;
-	scale.z += (1.0f - scale.z) * 0.1f;
+	scale.x += (1.5f - scale.x) * 0.1f;
+	scale.y += (1.5f - scale.y) * 0.1f;
+	scale.z += (1.5f - scale.z) * 0.1f;
 
 	// 重力加速度
 	mVelocity.y += -g * dt;
@@ -175,15 +176,15 @@ void Player::Update(double deltaTime)
 
 	if (!oldGround && mGround) {
 		// スケールアニメーション
-		scale.y = 0.5f;
-		scale.x = 1.5f;
-		scale.z = 1.5f;
+		scale.y *= 0.5f;
+		scale.x *= 1.5f;
+		scale.z *= 1.5f;
 	}
 
 	// スケールを元に戻す
-	scale.x += (1.0f - scale.x) * 0.1f;
-	scale.y += (1.0f - scale.y) * 0.1f;
-	scale.z += (1.0f - scale.z) * 0.1f;
+	scale.x += (1.5f - scale.x) * 0.1f;
+	scale.y += (1.5f - scale.y) * 0.1f;
+	scale.z += (1.5f - scale.z) * 0.1f;
 
 	// 弾の発射
 	if (Input::GetKeyTrigger('J')) {

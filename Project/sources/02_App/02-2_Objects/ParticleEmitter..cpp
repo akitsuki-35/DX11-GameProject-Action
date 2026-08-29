@@ -8,6 +8,7 @@
 *============================================================*/
 #include "ParticleEmitter.h"
 #include "ParticleRenderer.h"
+#include "ParticleBox.h"
 #include "MeshTypes.h"
 #include "Input.h"
 
@@ -26,6 +27,8 @@ void ParticleEmitter::Initialize()
 	for (int i = 0; i < PARTICLE_MAX; i++) {
 		mParticles[i].mEnable = false;
 	}
+
+	_mType = std::make_unique<ParticleType::Box>(this);
 }
 
 void ParticleEmitter::Finalize()
@@ -35,40 +38,27 @@ void ParticleEmitter::Finalize()
 
 void ParticleEmitter::Update(double deltaTime)
 {
-	Vector3 gravity{ 0.0f, -9.8f, 0.0f };
+	_mType->Update(deltaTime);
 
-	int count = 100;
+	mCurrentInterval -= deltaTime;
 
-	if (Input::GetKeyTrigger(VK_SPACE)) {
-		// パーティクル発射
-		for (int i = 0; i < PARTICLE_MAX; i++) {
-			if (!mParticles[i].mEnable) {
-				mParticles[i].mEnable = true;
-				mParticles[i].mLife = 60;
-				mParticles[i].mPosition = mTransform.GetPosition();
-				mParticles[i].mVelocity = { ((float)rand() / RAND_MAX - 0.5f) * 20.0f,
-					((float)rand() / RAND_MAX) * 20.0f,
-					((float)rand() / RAND_MAX - 0.5f) * 20.0f };
-
-				float scale = ((float)rand() / RAND_MAX - 0.5f) * 5.0f;
-
-				mParticles[i].mScale = { scale, scale, scale };
-
-				count--;
-				if (count <= 0) {
-					break;
-				}
-			}
-		}
-	}
-
-	// パーティクル更新
-	for (int i = 0; i < PARTICLE_MAX; i++) {
-		mParticles[i].update(deltaTime);
+	if (mCurrentInterval <= 0.0 && Input::GetKeyTrigger(VK_SPACE)) {
+		_mType->Emission();
+		mCurrentInterval = mMaxInterval;
 	}
 }
 
 void ParticleEmitter::Draw() const
 {
 	GameObject::Draw();
+}
+
+ParticleEmitter* ParticleEmitter::LoadCSV(const char* filePath)
+{
+	auto newType = _mType->LoadCSV(filePath);
+
+	if (newType) {
+		this->SetType(std::move(newType));
+	}
+	return this;
 }

@@ -31,6 +31,9 @@
     <ClCompile Include="sources\00_Engine\00-2_Graphics\ModelMesh.cpp" />
     <ClCompile Include="sources\00_Engine\00-2_Graphics\Graphics.cpp" />
     <ClCompile Include="sources\00_Engine\00-2_Graphics\Particle.cpp" />
+    <ClCompile Include="sources\00_Engine\00-2_Graphics\ParticleBase.cpp" />
+    <ClCompile Include="sources\00_Engine\00-2_Graphics\ParticleBezier.cpp" />
+    <ClCompile Include="sources\00_Engine\00-2_Graphics\ParticleBox.cpp" />
     <ClCompile Include="sources\00_Engine\00-2_Graphics\Skeleton.cpp" />
     <ClCompile Include="sources\00_Engine\00-2_Graphics\UICanvas.cpp" />
     <ClCompile Include="sources\00_Engine\00-2_Graphics\UIStyle.cpp" />
@@ -117,9 +120,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="sources\02_App\02-2_Objects\ParticleBase.cpp" />
-    <ClCompile Include="sources\02_App\02-2_Objects\ParticleBezier.cpp" />
-    <ClCompile Include="sources\02_App\02-2_Objects\ParticleBox.cpp" />
     <ClCompile Include="sources\02_App\02-2_Objects\ParticleEmitter..cpp" />
     <ClCompile Include="sources\02_App\02-2_Objects\Player.cpp" />
     <ClCompile Include="sources\02_App\02-2_Objects\Score.cpp">
@@ -197,6 +197,9 @@
     <ClInclude Include="sources\00_Engine\00-2_Graphics\ModelMesh.h" />
     <ClInclude Include="sources\00_Engine\00-2_Graphics\Graphics.h" />
     <ClInclude Include="sources\00_Engine\00-2_Graphics\Particle.h" />
+    <ClInclude Include="sources\00_Engine\00-2_Graphics\ParticleBase.h" />
+    <ClInclude Include="sources\00_Engine\00-2_Graphics\ParticleBezier.h" />
+    <ClInclude Include="sources\00_Engine\00-2_Graphics\ParticleBox.h" />
     <ClInclude Include="sources\00_Engine\00-2_Graphics\Skeleton.h" />
     <ClInclude Include="sources\00_Engine\00-2_Graphics\UICanvas.h" />
     <ClInclude Include="sources\00_Engine\00-2_Graphics\UIStyle.h" />
@@ -301,9 +304,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="sources\02_App\02-2_Objects\ParticleBase.h" />
-    <ClInclude Include="sources\02_App\02-2_Objects\ParticleBezier.h" />
-    <ClInclude Include="sources\02_App\02-2_Objects\ParticleBox.h" />
     <ClInclude Include="sources\02_App\02-2_Objects\ParticleEmitter.h" />
     <ClInclude Include="sources\02_App\02-2_Objects\Player.h" />
     <ClInclude Include="sources\02_App\02-2_Objects\Score.h">

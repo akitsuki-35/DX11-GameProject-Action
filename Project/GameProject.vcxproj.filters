@@ -312,17 +312,17 @@
     <ClCompile Include="sources\01_Framework\01-1_Common\BezierCurve.cpp">
       <Filter>01_Framework\01-1_Common</Filter>
     </ClCompile>
-    <ClCompile Include="sources\02_App\02-2_Objects\ParticleBase.cpp">
-      <Filter>02_App\02-2_Objects\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\02_App\02-2_Objects\ParticleBezier.cpp">
-      <Filter>02_App\02-2_Objects\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="sources\02_App\02-2_Objects\ParticleBox.cpp">
-      <Filter>02_App\02-2_Objects\Common</Filter>
-    </ClCompile>
     <ClCompile Include="sources\00_Engine\00-4_Importer\CSVHandler.cpp">
       <Filter>00_Engine\00-4_Importer</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\00_Engine\00-2_Graphics\ParticleBase.cpp">
+      <Filter>00_Engine\00-2_Graphics\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\00_Engine\00-2_Graphics\ParticleBezier.cpp">
+      <Filter>00_Engine\00-2_Graphics\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\00_Engine\00-2_Graphics\ParticleBox.cpp">
+      <Filter>00_Engine\00-2_Graphics\Effects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -581,17 +581,17 @@
     <ClInclude Include="sources\01_Framework\01-1_Common\BezierCurve.h">
       <Filter>01_Framework\01-1_Common</Filter>
     </ClInclude>
-    <ClInclude Include="sources\02_App\02-2_Objects\ParticleBase.h">
-      <Filter>02_App\02-2_Objects\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\02_App\02-2_Objects\ParticleBezier.h">
-      <Filter>02_App\02-2_Objects\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="sources\02_App\02-2_Objects\ParticleBox.h">
-      <Filter>02_App\02-2_Objects\Common</Filter>
-    </ClInclude>
     <ClInclude Include="sources\00_Engine\00-4_Importer\CSVHandler.h">
       <Filter>00_Engine\00-4_Importer</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\00_Engine\00-2_Graphics\ParticleBase.h">
+      <Filter>00_Engine\00-2_Graphics\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\00_Engine\00-2_Graphics\ParticleBezier.h">
+      <Filter>00_Engine\00-2_Graphics\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\00_Engine\00-2_Graphics\ParticleBox.h">
+      <Filter>00_Engine\00-2_Graphics\Effects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

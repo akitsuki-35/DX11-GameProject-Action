@@ -19,12 +19,12 @@ void Field::Initialize()
 	SpriteRenderer* renderer = AddComponent<SpriteRenderer>(this);
 
 	renderer->GetMesh().CreatePlane(Plane::Pivot::Center, Plane::Axis::XZ);
-	mTransform.SetScale({ 30.0f, 30.0f, 30.0f });
+	mTransform.SetScale({ 50.0f, 50.0f, 50.0f });
 
 	renderer->LoadTexture("assets\\textures\\glass.jpg")->LoadShader("Unlit");
 
-	AudioPlayer* bgm = AddComponent<AudioPlayer>(this)->LoadAudio("assets\\audio\\tukito_break_out_in_the_middle.ogg");
-	bgm->SetVolume(0.1f);
+	AudioPlayer* bgm = AddComponent<AudioPlayer>(this)->LoadAudio("assets\\audio\\tukito_decisive_battle.ogg");
+	bgm->SetVolume(0.05f);
 	bgm->Play(true);
 }
 

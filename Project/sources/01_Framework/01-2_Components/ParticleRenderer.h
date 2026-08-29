@@ -9,7 +9,7 @@
 #pragma once
 
 #include "Renderer.h"
-#include "Elements.h"
+#include "Mesh.h"
 
 /*------------------------------------------------------------
 	前方宣言
@@ -23,20 +23,23 @@ class Texture;
 class ParticleRenderer : public Renderer
 {
 	friend class ParticleEmitter;
+	friend class ParticleGUI;
 
 private:
 	// エミッタ
 	ParticleEmitter* _mEmitter{ nullptr };
 
+	// メッシュ
+	Mesh mMesh{};
+
 	// テクスチャ
 	Texture* _mTexture{ nullptr };
 
+	// サブカラー
+	DirectX::XMFLOAT4 mSubColor{ 1.0f, 1.0f, 1.0f, 1.0f };
+
 public:
-	ParticleRenderer(GameObject* owner)
-		: Renderer(owner) {
-		// 不透明レイヤーに描画
-		mSortKey.layer = Layer::Alpha;
-	};
+	ParticleRenderer(GameObject* owner);
 
 	~ParticleRenderer() override = default;
 
@@ -58,10 +61,17 @@ private:
 	// ワールド行列取得
 	DirectX::XMMATRIX getWorldMatrix() const override;
 
+	void mainColorDraw(const DirectX::XMMATRIX& rotation) const;
+	void subColorDraw(const DirectX::XMMATRIX& rotation) const;
+
 public:
 	// テクスチャ読み込み
 	ParticleRenderer* LoadTexture(const char* fileName);
 
 	// ゲッター
+	Mesh& GetMesh() { return mMesh; }
 	Texture* GetTexture() const { return _mTexture; }
+
+	// カラーのセット
+	void SetSubColor(const DirectX::XMFLOAT4& color) { mSubColor = color; }
 };

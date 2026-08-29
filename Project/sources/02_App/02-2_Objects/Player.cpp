@@ -23,14 +23,14 @@ void Player::Initialize()
 	mTransform = Transform(
 		{ 0.0f, 0.0f, 0.0f },
 		{ 0.0f, 0.0f, 0.0f },
-		{ 1.0f, 1.0f, 1.0f }
+		{ 1.5f, 1.5f, 1.5f }
 	);		
 
 	mVelocity = { 0.0f, 0.0f, 0.0f };
 	mAccel = { 50.0f, 0.0f, 50.0f };
 
 	// コンポーネント読込
-	AddComponent<ModelRenderer>(this)->LoadModel("assets\\models\\Test.fbx")->
+	AddComponent<ModelRenderer>(this)->LoadModel("assets\\models\\Player.fbx")->
 		LoadShader("Directional");
 	AddComponent<Animator>(this)->Set("Take 001");
 
@@ -81,6 +81,7 @@ void Player::Update(double deltaTime)
 	}
 
 	float yaw = atan2f(mVelocity.x, mVelocity.z);
+	yaw += DirectX::XM_PI;
 	rotation.y = yaw;
 
 	// ジャンプ
@@ -90,18 +91,18 @@ void Player::Update(double deltaTime)
 
 			//スケールアニメーション
 			mTransform.SetScale({ 0.75f, 2.0f, 0.75f });
-			scale.y = 2.0f;
-			scale.x = 0.75f;
-			scale.z = 0.75f;
+			scale.y *= 2.0f;
+			scale.x *= 0.75f;
+			scale.z *= 0.75f;
 
 			mSE->Play();
 		}
 	}
 
 	// スケールを元に戻す
-	scale.x += (1.0f - scale.x) * 0.1f;
-	scale.y += (1.0f - scale.y) * 0.1f;
-	scale.z += (1.0f - scale.z) * 0.1f;
+	scale.x += (1.5f - scale.x) * 0.1f;
+	scale.y += (1.5f - scale.y) * 0.1f;
+	scale.z += (1.5f - scale.z) * 0.1f;
 
 	// 重力加速度
 	mVelocity.y += -g * dt;
@@ -123,67 +124,17 @@ void Player::Update(double deltaTime)
 		mGround = true;
 	}
 
-	//// 木との衝突判定
-	//auto trees = Game::GetGameObjects<Tree>();
-	//for (auto tree : trees) {
-	//	Vector3 treePosition = tree->GetPosition();
-	//	Vector3 playerPosition = mPosition;
-
-	//	treePosition.y = 0.0f;
-	//	playerPosition.y = 0.0f;
-	//	Vector3 dir = playerPosition - treePosition; // 方向ベクトル算出
-	//	float length = dir.Length(); // 距離計算
-
-	//	if (length < 1.5f) {
-	//		dir /= length; // 正規化
-	//		dir *= 1.5f - length;
-
-	//		mPosition += dir;
-	//	}
-	//}
-
-	//// 箱との衝突判定
-	//auto boxes = Game::GetGameObjects<Box>();
-	//for (auto box : boxes) {
-	//	Vector3 boxPosition = box->GetPosition();
-	//	Vector3 boxScale = box->GetScale();
-
-	//	if (boxPosition.x - boxScale.x < mPosition.x &&
-	//		mPosition.x < boxPosition.x + boxScale.x &&
-	//		boxPosition.z - boxScale.z < mPosition.z &&
-	//		mPosition.z < boxPosition.z + boxScale.z) 
-	//	{
-	//		if (boxPosition.y + boxScale.y < mPosition.y &&
-	//			mPosition.y < boxPosition.y + boxScale.y * 2.0f &&
-	//			mVelocity.y < 0.0f)
-	//		{
-	//			mPosition.y = boxPosition.y + boxScale.y * 2.0f;
-	//			mVelocity.y = 0.0f;
-	//			mGround = true;
-	//		}
-	//		else if (boxPosition.y - boxScale.y < mPosition.y &&
-	//			mPosition.y < boxPosition.y + boxScale.y)
-	//		{
-	//			mPosition.x = oldPosition.x + mScale.x;
-	//			mPosition.z = oldPosition.z + mScale.z;
-
-	//			mVelocity.x = 0.0f;
-	//			mVelocity.z = 0.0f;
-	//		}
-	//	}
-	//}
-
 	if (!oldGround && mGround) {
 		// スケールアニメーション
-		scale.y = 0.5f;
-		scale.x = 1.5f;
-		scale.z = 1.5f;
+		scale.y *= 0.5f;
+		scale.x *= 1.5f;
+		scale.z *= 1.5f;
 	}
 
 	// スケールを元に戻す
-	scale.x += (1.0f - scale.x) * 0.1f;
-	scale.y += (1.0f - scale.y) * 0.1f;
-	scale.z += (1.0f - scale.z) * 0.1f;
+	scale.x += (1.5f - scale.x) * 0.1f;
+	scale.y += (1.5f - scale.y) * 0.1f;
+	scale.z += (1.5f - scale.z) * 0.1f;
 
 	// 弾の発射
 	if (Input::GetKeyTrigger('J')) {

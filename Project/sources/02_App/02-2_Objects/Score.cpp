@@ -12,23 +12,23 @@
 
 void Score::Initialize()
 {
-	//TextRenderer* renderer = AddComponent<TextRenderer>(this);
-
-	//mTransform.SetPosition({ 0.0f, 0.0f, 0.0f });
-
-	//renderer->SetFont("LogoTypeGothic")->
-	//	SetText("あの\\c[7]イーハトーヴォ\\c[0]のすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波")
-	//	->SetTextSize(48.0f)
-	//	->LoadShader("FontOutline");
-
-	UIRenderer* renderer = AddComponent<UIRenderer>(this);
-
-	renderer->GetCanvas().CreateCanvas(UIStyle::Pivot::LeftTop);
+	TextRenderer* renderer = AddComponent<TextRenderer>(this);
 
 	mTransform.SetPosition({ 0.0f, 0.0f, 0.0f });
-	mTransform.SetScale({ 1000.0f, 100.0f, 0.0f });
 
-	renderer->LoadTexture("assets\\textures\\game_ui.png")->LoadShader("UI");
+	renderer->SetFont("Kaisotai")->
+		SetText("あの\\c[3]イーハトーヴォ\\c[0]のすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波")
+		->SetTextSize(48.0f)
+		->LoadShader("Font");
+
+	//UIRenderer* renderer = AddComponent<UIRenderer>(this);
+
+	//renderer->GetCanvas().CreateCanvas(UIStyle::Pivot::LeftTop);
+
+	//mTransform.SetPosition({ 0.0f, 0.0f, 0.0f });
+	//mTransform.SetScale({ 1000.0f, 100.0f, 0.0f });
+
+	//renderer->LoadTexture("assets\\textures\\game_ui.png")->LoadShader("UI");
 
 	mValue = 0;
 }

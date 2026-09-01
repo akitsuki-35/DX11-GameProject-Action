@@ -21,12 +21,12 @@ void main(in VS_IN In, out PS_IN Out)
 
     // 光源計算
     // 光ベクトルと法線の内積計算
-    //float light = -dot(Light.Direction.xyz, worldNormal.xyz); // xyz成分のみで計算
-    float light = 0.5 - 0.5 * dot(Light.Direction.xyz, worldNormal.xyz); // ハーフランバート
+    float light = -dot(Light.Direction.xyz, worldNormal.xyz); // xyz成分のみで計算
+    //float light = 0.5 - 0.5 * dot(Light.Direction.xyz, worldNormal.xyz); // ハーフランバート
     light = saturate(light); // 0.0～1.0に収める
     
     // 出力
-    Out.Diffuse.rgb = light * Material.Diffuse.rgb + Light.Diffuse.rgb; // 明るさを頂点カラーとして出力
+    Out.Diffuse.rgb = light * Material.Diffuse.rgb + Light.Ambient.rgb * Light.Diffuse.rgb; // 明るさを頂点カラーとして出力
     Out.Diffuse.a = In.Diffuse.a; // 元の頂点のアルファ値のまま出力
     Out.TexCoord = In.TexCoord; // テクスチャ座標を出力
 }

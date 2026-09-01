@@ -21,11 +21,7 @@ class Player : public GameObject
 private:
 	Vector3 mVelocity{ 0.0f, 0.0f, 0.0f };
 	Vector3 mAccel{ 0.0f, 0.0f, 0.0f };
-	float mRotationVel{ 0.0f };
 	bool mGround{ true };
-	float mMoveAnimation{ 0.0f };
-
-	AudioPlayer* mSE{};
 
 public:
 	Player() = default;

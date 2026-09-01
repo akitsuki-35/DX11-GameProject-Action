@@ -1,24 +1,24 @@
 ﻿/*============================================================
-*	@file	 : Field.h
-*	@brief	 : フィールド
+*	@file	 : Grid.h
+*	@brief	 : グリッド
 *
 * 　@author  : @akitsuki-35（https://github.com/akitsuki-35）
-* 　@date	 : 2026/04/28
-*	@updated : 2026/08/04
+* 　@date	 : 2026/08/20
+*	@updated : 2026/08/20
 *============================================================*/
 #pragma once
 
 #include "GameObject.h"
 
 /*============================================================
-*	@class	: Field
-*	@brief	: フィールド
+*	@class	: Grid
+*	@brief	: グリッド
 *============================================================*/
-class Field : public GameObject
+class Grid : public GameObject
 {
 public:
-	Field() = default;
-	
+	Grid() = default;
+
 	void Initialize() override;
 	void Finalize() override;
 	void Update(double deltaTime) override;

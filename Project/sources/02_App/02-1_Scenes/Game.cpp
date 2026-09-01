@@ -12,14 +12,11 @@
 #include "Camera.h"
 #include "Transition.h"
 
-#include "Field.h"
+#include "Grid.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "Bullet.h"
-#include "Tree.h"
 #include "Sky.h"
-#include "Box.h"
-#include "Shadow.h"
 
 #include "ParticleEmitter.h"
 #include "Result.h"
@@ -39,19 +36,12 @@ void Game::Initialize()
 
 	AddGameObject<Sky>();
 
-	AddGameObject<Field>();
+	AddGameObject<Grid>()->SetPosition({ 0.0f, 0.0f, 0.0f });
+
 	AddGameObject<Player>();
 	AddGameObject<Enemy>()->SetPosition({ 5.0f, 0.0f, 5.0f });
 	AddGameObject<Enemy>()->SetPosition({ -5.0f, 0.0f, 5.0f });
 	AddGameObject<Enemy>()->SetPosition({ 0.0f, 0.0f, 5.0f });
-	Box* box = AddGameObject<Box>();
-	box->SetPosition({ 0.0f, 0.0f, -5.0f });
-	box->SetScale({ 1.0f, 1.0f, 1.0f });
-
-	AddGameObject<Tree>()->SetPosition({ -5.0f,0.0f, 5.0f });
-	AddGameObject<Tree>()->SetPosition({ -5.0f,0.0f, 0.0f });
-
-	AddGameObject<Shadow>()->SetPosition({ 0.0f, 0.1f, 0.0f });
 
 	AddGameObject<ParticleEmitter>()->LoadCSV("assets\\csv\\test.csv")->SetPosition({ 0.0f, 0.0f, 0.0f });
 

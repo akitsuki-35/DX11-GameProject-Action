@@ -99,5 +99,6 @@ namespace FontSet {
 		FontManager::getInstance().Register("MPLUS_Bold", "assets\\fonts\\MPLUS1-Bold.ttf");
 		FontManager::getInstance().Register("LogoTypeGothic", "assets\\fonts\\07LogoTypeGothic7.ttf");
 		FontManager::getInstance().Register("GenEiLateMin", "assets\\fonts\\GenEiLateMinN_v2.ttf");
+		FontManager::getInstance().Register("Kaisotai", "assets\\fonts\\Kaisotai-Next-UP-B.ttf");
 	}
 }

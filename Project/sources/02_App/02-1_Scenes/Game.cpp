@@ -53,7 +53,7 @@ void Game::Initialize()
 
 	AddGameObject<Shadow>()->SetPosition({ 0.0f, 0.1f, 0.0f });
 
-	AddGameObject<ParticleEmitter>()->SetPosition({ 0.0f, 0.0f, 0.0f });
+	AddGameObject<ParticleEmitter>()->LoadCSV("assets\\csv\\test.csv")->SetPosition({ 0.0f, 0.0f, 0.0f });
 
 	AddGameObject<Score>();
 }

@@ -42,8 +42,8 @@ void ParticleEmitter::Update(double deltaTime)
 
 	mCurrentInterval -= deltaTime;
 
-	if (mCurrentInterval <= 0.0 && Input::GetKeyTrigger(VK_SPACE)) {
-		_mType->Emission();
+	if (mCurrentInterval <= 0.0) {
+		_mType->Emission(mDesc);
 		mCurrentInterval = mMaxInterval;
 	}
 }

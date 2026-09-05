@@ -46,6 +46,13 @@ void ParticleEmitter::Update(double deltaTime)
 		_mType->Emission(mDesc);
 		mCurrentInterval = mMaxInterval;
 	}
+
+	if (!mLoop) {
+		mLife--;
+		if (mLife <= 0) {
+			SetDestroy();
+		}
+	}
 }
 
 void ParticleEmitter::Draw() const
@@ -60,5 +67,11 @@ ParticleEmitter* ParticleEmitter::LoadCSV(const char* filePath)
 	if (newType) {
 		this->SetType(std::move(newType));
 	}
+	return this;
+}
+
+ParticleEmitter* ParticleEmitter::SetLoop(bool isLoop)
+{
+	mLoop = isLoop;
 	return this;
 }

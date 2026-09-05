@@ -8,15 +8,24 @@
 *============================================================*/
 #include "Grid.h"
 #include "GridRenderer.h"
+#include "AudioPlayer.h"
 #include <d3d11.h>
 
 void Grid::Initialize()
 {
+	// グリッド描画用レンダラーのセット
 	GridRenderer* renderer = AddComponent<GridRenderer>(this);
 
+	// グリッドサイズ設定
 	renderer->Set(20, 20, 5.0f);
 
+	// シェーダーセット
 	renderer->LoadShader("Unlit");
+
+	// BGMロード・再生
+	AudioPlayer* bgm = AddComponent<AudioPlayer>(this)->LoadAudio("assets\\audio\\PerituneMaterial_Rapid3_loop.ogg");
+	bgm->SetVolume(0.05f);
+	bgm->Play();
 }
 
 void Grid::Finalize()

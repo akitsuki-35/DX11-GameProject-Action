@@ -17,8 +17,8 @@ void Score::Initialize()
 	mTransform.SetPosition({ 0.0f, 0.0f, 0.0f });
 
 	renderer->SetFont("Kaisotai")->
-		SetText("あの\\c[3]イーハトーヴォ\\c[0]のすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波")
-		->SetTextSize(48.0f)
+		SetText("あのイーハトーヴォのすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波")
+		->SetTextSize(48.0f)->SetShadowColor({0.0f, 0.5f, 1.0f, 1.0f})->SetColor({0.5f, 1.0f, 0.3f, 1.0f})
 		->LoadShader("Font");
 
 	//UIRenderer* renderer = AddComponent<UIRenderer>(this);
@@ -26,9 +26,9 @@ void Score::Initialize()
 	//renderer->GetCanvas().CreateCanvas(UIStyle::Pivot::LeftTop);
 
 	//mTransform.SetPosition({ 0.0f, 0.0f, 0.0f });
-	//mTransform.SetScale({ 1000.0f, 100.0f, 0.0f });
+	//mTransform.SetScale({ 1920.0f, 1080.0f, 0.0f });
 
-	//renderer->LoadTexture("assets\\textures\\game_ui.png")->LoadShader("UI");
+	//renderer->LoadTexture("assets\\textures\\filter.png")->LoadShader("UI");
 
 	mValue = 0;
 }

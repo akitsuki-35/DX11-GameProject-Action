@@ -29,6 +29,10 @@ private:
 	std::wstring mText{}; // 表示文字列
 	size_t mCharsPerLine{ 30 }; // 1行あたりの文字数
 
+	// ドロップシャドウ関連
+	DirectX::XMFLOAT4 mShadowColor{ 0.0f, 0.0f, 0.0f, 1.0f }; // ドロップシャドウカラー
+	bool mShadowEnable{ true }; // ドロップシャドウの有無
+
 public:
 	void Finalize() override {
 		_mFont = nullptr;
@@ -47,10 +51,8 @@ private:
 	// ドロップシャドウ描画
 	void shadowDraw(const Glyph* glyph, const Transform& transform) const;
 
-	DirectX::XMFLOAT4 convertTextColor(int index) const;
-
 	DirectX::XMMATRIX getWorldMatrix() = delete;
-	Renderer* SetColor(const DirectX::XMFLOAT4 color) = delete;
+	//Renderer* SetColor(const DirectX::XMFLOAT4 color) = delete;
 
 public:
 	UIRenderer* LoadTexture(const char* fileName) = delete;
@@ -58,6 +60,7 @@ public:
 	// フォントセット
 	TextRenderer* SetFont(const std::string& fontName);
 
+	// テキストサイズ更新
 	TextRenderer* SetTextSize(const float& size);
 
 	// テキスト更新
@@ -65,4 +68,10 @@ public:
 
 	// 1行あたりの文字数更新
 	TextRenderer* SetCharsPerLine(const size_t& charsPerLine);
+
+	// ドロップシャドウカラー変更
+	TextRenderer* SetShadowColor(const DirectX::XMFLOAT4 color);
+
+	// ドロップシャドウの有効無効切り替え
+	TextRenderer* SetShadowEnable(const bool& isEnable);
 };

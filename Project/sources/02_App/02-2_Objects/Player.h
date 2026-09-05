@@ -10,6 +10,9 @@
 
 #include "GameObject.h"
 
+/*------------------------------------------------------------
+	前方宣言
+------------------------------------------------------------*/
 class AudioPlayer;
 
 /*============================================================
@@ -21,7 +24,6 @@ class Player : public GameObject
 private:
 	Vector3 mVelocity{ 0.0f, 0.0f, 0.0f };
 	Vector3 mAccel{ 0.0f, 0.0f, 0.0f };
-	bool mGround{ true };
 
 public:
 	Player() = default;

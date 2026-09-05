@@ -66,7 +66,7 @@ void TextRenderer::Draw() const
 	size_t charCount = 0;
 
 	// 文字色
-	XMFLOAT4 textColor = XMFLOAT4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	XMFLOAT4 textColor = mColor;
 
 	// 1文字ずつレンダリング処理する
 	for (size_t i = 0; i < mText.length(); ++i) {
@@ -140,7 +140,10 @@ void TextRenderer::Draw() const
 		// ワールド行列セット
 		D3D11::BufferManager::getInstance().SetWorldMatrix(transform.GetWorldMatrix());
 
-		shadowDraw(glyph, transform);
+		// ドロップシャドウ描画
+		if (mShadowEnable) {
+			shadowDraw(glyph, transform);
+		}
 
 		// マテリアル設定
 		Element::MATERIAL material{};
@@ -170,7 +173,7 @@ void TextRenderer::shadowDraw(const Glyph* glyph, const Transform& transform) co
 {
 	// シャドウ用マテリアル設定
 	Element::MATERIAL shadowMaterial{};
-	shadowMaterial.Diffuse = XMFLOAT4{ 0.0f, 0.0f, 0.0f, 1.0f };
+	shadowMaterial.Diffuse = mShadowColor;
 	shadowMaterial.TextureEnable = true;
 	D3D11::BufferManager::getInstance().SetMaterial(shadowMaterial);
 
@@ -211,5 +214,17 @@ TextRenderer* TextRenderer::SetText(const std::string& text)
 TextRenderer* TextRenderer::SetCharsPerLine(const size_t& charsPerLine)
 {
 	mCharsPerLine = charsPerLine;
+	return this;
+}
+
+TextRenderer* TextRenderer::SetShadowColor(const DirectX::XMFLOAT4 color)
+{
+	mShadowColor = color;
+	return this;
+}
+
+TextRenderer* TextRenderer::SetShadowEnable(const bool& isEnable)
+{
+	mShadowEnable = isEnable;
 	return this;
 }

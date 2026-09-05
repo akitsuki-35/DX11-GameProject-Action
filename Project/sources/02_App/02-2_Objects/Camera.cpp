@@ -17,9 +17,9 @@ using namespace DirectX;
 
 void Camera::Initialize()
 {
-	mTransform.SetPosition({ 0.0f, 7.5f, 7.5f });
+	mTransform.SetPosition({ 0.0f, 7.5f, -50.0f });
 
-	mTarget = Vector3(0.0f, 0.0f, 0.0f);
+	mTarget = Vector3(0.0f, 0.0f, -50.0f);
 }
 
 void Camera::Finalize()

@@ -17,7 +17,7 @@ using namespace DirectX;
 
 void Camera::Initialize()
 {
-	mTransform.SetPosition({ 0.0f, 7.5f, -50.0f });
+	mTransform.SetPosition({ 0.0f, 5.0f, -50.0f });
 
 	mTarget = Vector3(0.0f, 0.0f, -50.0f);
 }
@@ -46,8 +46,8 @@ void Camera::Update(double deltaTime)
 	rotation = mTransform.GetRotation();
 
 	float t = 0.1f;
-	mTarget = mTarget * (1.0f - t) + (playerPos + Vector3(0.0f, 2.0f, 0.0f)) * t;
-	mTransform.SetPosition(mTarget + Vector3(-sinf(rotation.y) * 7.5f, 2.0f, -cosf(rotation.y) * 7.5f));
+	mTarget = mTarget * (1.0f - t) + (playerPos + Vector3(0.0f, 1.25f, 0.0f)) * t;
+	mTransform.SetPosition(mTarget + Vector3(-sinf(rotation.y) * 5.0f, 1.25f, -cosf(rotation.y) * 5.0f));
 
 	XMFLOAT3 up = XMFLOAT3(0.0f, 1.0f, 0.0f);
 	mViewMatrix = XMMatrixLookAtLH(XMLoadFloat3((XMFLOAT3*)&mTransform.GetPosition()),

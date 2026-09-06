@@ -28,7 +28,7 @@ void Player::Initialize()
 	mAccel = { 0.0f, 0.0f, 0.0f };
 
 	// モデル・シェーダー読み込み
-	AddComponent<ModelRenderer>(this)->LoadModel("assets\\models\\Player.obj")->
+	AddComponent<ModelRenderer>(this)->LoadModel("assets\\models\\Player.fbx")->
 		LoadShader("Directional");
 }
 
@@ -62,15 +62,15 @@ void Player::Update(double deltaTime)
 
 	// キー入力で旋回
 	if (Input::GetKeyPress(VK_RIGHT)) {
-		rotation.z = std::max(rotation.z - 1.5f * dt, -1.0f);
+		rotation.z = std::max(rotation.z - 2.0f * dt, -1.0f);
 	}
 	else if (Input::GetKeyPress(VK_LEFT)) {
-		rotation.z = std::min(rotation.z + 1.5f * dt, 1.0f);
+		rotation.z = std::min(rotation.z + 2.0f * dt, 1.0f);
 	}
 	else {
 		// 入力がない時は傾きを戻す
-		if (rotation.z > 0.0f) rotation.z = std::max(rotation.z - 1.5f * dt, 0.0f);
-		else if (rotation.z < 0.0f) rotation.z = std::min(rotation.z + 1.5f * dt, 0.0f);
+		if (rotation.z > 0.0f) rotation.z = std::max(rotation.z - 2.0f * dt, 0.0f);
+		else if (rotation.z < 0.0f) rotation.z = std::min(rotation.z + 2.0f * dt, 0.0f);
 	}
 
 	// 下キーでスピードダウン

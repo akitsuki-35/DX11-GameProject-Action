@@ -12,6 +12,8 @@
 #include "Camera.h"
 #include "Transition.h"
 
+#include "GameMode.h"
+
 #include "Grid.h"
 #include "Player.h"
 #include "Enemy.h"
@@ -34,6 +36,8 @@ void Game::Initialize()
 
 	AddGameObject<Camera>();
 
+	AddGameObject<GameMode>();
+
 	AddGameObject<Sky>();
 
 	AddGameObject<Grid>()->SetPosition({ 0.0f, 0.0f, 0.0f });
@@ -43,7 +47,7 @@ void Game::Initialize()
 	AddGameObject<Enemy>()->SetPosition({ -5.0f, 0.0f, 5.0f });
 	AddGameObject<Enemy>()->SetPosition({ 0.0f, 0.0f, 5.0f });
 
-	AddGameObject<ParticleEmitter>()->LoadCSV("assets\\csv\\test.csv")->SetPosition({ 0.0f, 0.0f, 0.0f });
+	_mEffect = AddGameObject<ParticleEmitter>()->LoadCSV("assets\\csv\\Effect.csv");
 
 	AddGameObject<Score>();
 }
@@ -56,6 +60,16 @@ void Game::Finalize()
 void Game::Update(double deltaTime)
 {
 	Scene::Update(deltaTime);
+
+	auto player = GetGameObject<Player>();
+
+	Vector3 position = player->GetPosition();
+	Vector3 back = -player->GetTransform().GetForward();
+	position += back * 30.0f;
+	_mEffect->SetPosition(position);
+	
+	Vector3 velocity = _mEffect->GetDesc().Velocity;
+	_mEffect->SetAccel(-back * 100.0f);
 
 	if (Input::GetKeyTrigger(VK_RETURN)) {
 		SceneManager::getInstance().SceneChange<Result>();

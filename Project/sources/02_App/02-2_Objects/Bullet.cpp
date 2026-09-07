@@ -8,6 +8,7 @@
 *============================================================*/
 #include "Bullet.h"
 #include "Game.h"
+#include "GameMode.h"
 #include "Enemy.h"
 #include "ParticleEmitter.h"
 #include "Input.h"
@@ -57,7 +58,7 @@ void Bullet::Update(double deltaTime)
 	// オブジェクト背面に向けてパーティクル発射
 	_mEmitter->SetPosition(position);
 	_mEmitter->SetAccel(back * 10.0f);
-	_mEmitter->SetVelocity({ -mVelocity.x * 0.1f, 0.0f, -mVelocity.z * 0.1f });
+	_mEmitter->SetVelocity({ -mVelocity.x * 0.1f, -mVelocity.y * 0.1f, -mVelocity.z * 0.1f });
 
 	// 敵との衝突判定
 	auto enemys = Game::GetGameObjects<Enemy>();
@@ -68,6 +69,7 @@ void Bullet::Update(double deltaTime)
 
 		// 距離がオブジェクト半径より小さい
 		if (length < 1.0f) {
+			GameMode::AudioPlay("Hit");
 			// 命中した敵・弾・パーティクルエミッタを削除
 			enemy->SetDestroy();
 			SetDestroy();

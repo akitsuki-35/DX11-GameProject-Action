@@ -8,11 +8,11 @@
 *============================================================*/
 #include "Player.h"
 #include "Game.h"
+#include "GameMode.h"
 #include "Camera.h"
 #include "Bullet.h"
 #include "Input.h"
 #include "ModelRenderer.h"
-#include "AudioPlayer.h"
 
 void Player::Initialize()
 {
@@ -106,7 +106,7 @@ void Player::Update(double deltaTime)
 
 	// 弾の発射
 	if (Input::GetKeyTrigger(VK_SPACE)) {
-
+		GameMode::AudioPlay("Shot");
 		Bullet* bullet = Game::AddGameObject<Bullet>();
 		bullet->SetPosition(mTransform.GetPosition());
 		bullet->SetVelocity(mTransform.GetForward() * 100.0f);

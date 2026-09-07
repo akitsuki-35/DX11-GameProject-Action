@@ -1,37 +1,35 @@
 ﻿/*============================================================
-*	@file	 : Player.h
-*	@brief	 : プレイヤークラス
+*	@file	 : GameMode.h
+*	@brief	 : ゲーム制御用クラス
 *
 * 　@author  : @akitsuki-35（https://github.com/akitsuki-35）
-* 　@date	 : 2026/05/19
-*	@updated : 2026/08/04
+* 　@date	 : 2026/09/07
+*	@updated : 2026/09/07
 *============================================================*/
 #pragma once
 
 #include "GameObject.h"
-
-/*------------------------------------------------------------
-	前方宣言
-------------------------------------------------------------*/
-class AudioPlayer;
+#include "AudioPlayer.h"
+#include <unordered_map>
 
 /*============================================================
-*	@class	: Player
-*	@brief	: プレイヤー
+*	@class	: GameMode
+*	@brief	: ゲーム制御用クラス
 *============================================================*/
-class Player : public GameObject
+class GameMode : public GameObject
 {
 private:
-	Vector3 mVelocity{ 0.0f, 0.0f, 0.0f };
-	Vector3 mAccel{ 0.0f, 0.0f, 0.0f };
-
-	AudioPlayer* _mShotSE{ nullptr };
+	// ゲーム内BGM・SE
+	static inline std::unordered_map<std::string, AudioPlayer*> _mGameAudios{};
 
 public:
-	Player() = default;
+	GameMode() = default;
 
 	void Initialize() override;
 	void Finalize() override;
 	void Update(double deltaTime) override;
 	void Draw() const override;
+
+	// オーディオ再生
+	static void AudioPlay(std::string key);
 };

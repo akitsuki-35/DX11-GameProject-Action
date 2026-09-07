@@ -18,6 +18,12 @@ void Grid::Initialize()
 	// グリッドサイズ設定
 	renderer->Set(20, 20, 5.0f);
 
+	// カラー設定
+	renderer->SetColor({ 0.2f, 0.4f, 1.0f, 1.0f });
+
+	// 加算合成
+	renderer->SetBlendState(Blend::Add);
+
 	// シェーダーセット
 	renderer->LoadShader("Unlit");
 }

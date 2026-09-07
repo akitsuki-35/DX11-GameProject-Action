@@ -1,32 +1,23 @@
 ﻿/*============================================================
-*	@file	 : Player.h
-*	@brief	 : プレイヤークラス
+*	@file	 : ScreenFilter.h
+*	@brief	 : 画面フィルター
 *
 * 　@author  : @akitsuki-35（https://github.com/akitsuki-35）
-* 　@date	 : 2026/05/19
-*	@updated : 2026/08/04
+* 　@date	 : 2026/09/07
+*	@updated : 2026/09/07
 *============================================================*/
 #pragma once
 
 #include "GameObject.h"
 
-/*------------------------------------------------------------
-	前方宣言
-------------------------------------------------------------*/
-class AudioPlayer;
-
 /*============================================================
-*	@class	: Player
-*	@brief	: プレイヤー
+*	@class	: ScreenFilter
+*	@brief	: 画面フィルター
 *============================================================*/
-class Player : public GameObject
+class ScreenFilter : public GameObject
 {
-private:
-	Vector3 mVelocity{ 0.0f, 0.0f, 0.0f };
-	Vector3 mAccel{ 0.0f, 0.0f, 0.0f };
-
 public:
-	Player() = default;
+	ScreenFilter() = default;
 
 	void Initialize() override;
 	void Finalize() override;

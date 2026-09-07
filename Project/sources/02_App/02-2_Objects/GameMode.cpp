@@ -11,19 +11,16 @@
 void GameMode::Initialize()
 {
 	// BGM読み込み・再生
-	AudioPlayer* bgm = AddComponent<AudioPlayer>(this)->LoadAudio("assets\\audio\\Stage.ogg");
-	bgm->SetVolume(0.05f);
+	AudioPlayer* bgm = AddComponent<AudioPlayer>(this)->LoadAudio("assets\\audio\\Stage.ogg")->SetVolume(0.05f);
 	_mGameAudios.emplace("BGM", bgm);
 
 	_mGameAudios["BGM"]->Play();
 
 	// SE読み込み
-	AudioPlayer* shot = AddComponent<AudioPlayer>(this)->LoadAudio("assets\\audio\\Shot.mp3");
-	shot->SetVolume(0.1f);
+	AudioPlayer* shot = AddComponent<AudioPlayer>(this)->LoadAudio("assets\\audio\\Shot.mp3")->SetVolume(0.1f);
 	_mGameAudios.emplace("Shot", shot);
 
-	AudioPlayer* hit = AddComponent<AudioPlayer>(this)->LoadAudio("assets\\audio\\Hit.mp3");
-	hit->LoadAudio("assets\\audio\\Hit.mp3")->SetVolume(0.1f);
+	AudioPlayer* hit = AddComponent<AudioPlayer>(this)->LoadAudio("assets\\audio\\Hit.mp3")->LoadAudio("assets\\audio\\Hit.mp3")->SetVolume(0.1f);
 	_mGameAudios.emplace("Hit", hit);
 }
 

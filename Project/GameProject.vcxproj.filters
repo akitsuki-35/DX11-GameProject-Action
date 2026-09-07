@@ -318,6 +318,9 @@
     <ClCompile Include="sources\02_App\02-2_Objects\GameMode.cpp">
       <Filter>02_App\02-2_Objects\Game</Filter>
     </ClCompile>
+    <ClCompile Include="sources\02_App\02-2_Objects\ScreenFilter.cpp">
+      <Filter>02_App\02-2_Objects\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\00_Engine\00-1_Core\Application.h">
@@ -579,6 +582,9 @@
       <Filter>01_Framework\01-2_Components\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="sources\02_App\02-2_Objects\GameMode.h">
+      <Filter>02_App\02-2_Objects\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\02_App\02-2_Objects\ScreenFilter.h">
       <Filter>02_App\02-2_Objects\Game</Filter>
     </ClInclude>
   </ItemGroup>

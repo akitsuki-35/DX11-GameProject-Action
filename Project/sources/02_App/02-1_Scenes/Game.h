@@ -31,4 +31,7 @@ public:
 	void Finalize() override;
 	void Update(double deltaTime) override;
 	void Draw() const override;
+
+private:
+	void stageEffectUpdate();
 };

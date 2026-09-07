@@ -44,20 +44,20 @@ void GridRenderer::Set(int xCount, int zCount, float size)
 	int index = 0;
 	for (int x = 0; x < X_V_COUNT; x++) {
 		pV[index].Position = { startX + size * x, 0.0f, startZ };
-		pV[index].Diffuse = { 1.0f, 0.2f, 0.0f, 1.0f };
+		pV[index].Diffuse = mColor;
 
 		pV[index + 1].Position = { startX + size * x, 0.0f, endZ };
-		pV[index + 1].Diffuse = { 1.0f, 0.2f, 0.0f, 1.0f };
+		pV[index + 1].Diffuse = mColor;
 
 		index += 2;
 	}
 
 	for (int z = 0; z < Z_V_COUNT; z++) {
 		pV[index].Position = { startX, 0.0f, startZ + size * z };
-		pV[index].Diffuse = { 1.0f, 0.2f, 0.0f, 1.0f };
+		pV[index].Diffuse = mColor;
 
 		pV[index + 1].Position = { endX, 0.0f, startZ + size * z };
-		pV[index + 1].Diffuse = { 1.0f, 0.2f, 0.0f, 1.0f };
+		pV[index + 1].Diffuse = mColor;
 
 		index += 2;
 	}

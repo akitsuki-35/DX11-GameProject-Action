@@ -57,6 +57,6 @@ public:
 	void Stop();
 
 	// ボリューム変更
-	void SetVolume(float Volume);
+	AudioPlayer* SetVolume(float Volume);
 };
 

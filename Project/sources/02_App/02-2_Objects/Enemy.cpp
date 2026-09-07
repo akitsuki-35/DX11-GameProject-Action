@@ -21,7 +21,7 @@ void Enemy::Initialize()
 	mAccel = { 0.0f, 0.0f, 0.0f };
 
 	// コンポーネント読込
-	AddComponent<ModelRenderer>(this)->LoadModel("assets\\models\\player.obj")->LoadShader("Directional");
+	AddComponent<ModelRenderer>(this)->LoadModel("assets\\models\\Enemy.fbx")->LoadShader("Directional");
 }
 
 void Enemy::Finalize()

@@ -1,26 +1,35 @@
 ﻿/*============================================================
-*	@file	 : Box.h
-*	@brief	 : 箱
+*	@file	 : GameMode.h
+*	@brief	 : ゲーム制御用クラス
 *
 * 　@author  : @akitsuki-35（https://github.com/akitsuki-35）
-* 　@date	 : 2026/06/16
-*	@updated : 2026/08/06
+* 　@date	 : 2026/09/07
+*	@updated : 2026/09/07
 *============================================================*/
 #pragma once
 
 #include "GameObject.h"
+#include "AudioPlayer.h"
+#include <unordered_map>
 
 /*============================================================
-*	@class	: Box
-*	@brief	: 箱
+*	@class	: GameMode
+*	@brief	: ゲーム制御用クラス
 *============================================================*/
-class Box : public GameObject
+class GameMode : public GameObject
 {
+private:
+	// ゲーム内BGM・SE
+	static inline std::unordered_map<std::string, AudioPlayer*> _mGameAudios{};
+
 public:
-	Box() = default;
+	GameMode() = default;
 
 	void Initialize() override;
 	void Finalize() override;
 	void Update(double deltaTime) override;
 	void Draw() const override;
+
+	// オーディオ再生
+	static void AudioPlay(std::string key);
 };

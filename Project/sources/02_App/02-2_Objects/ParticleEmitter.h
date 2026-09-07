@@ -47,6 +47,10 @@ private:
 	// 一度あたりの発射数
 	int mCount{ 100 };
 
+	// ループフラグ
+	bool mLoop{ true };
+	int mLife{ 60 };
+
 	// パーティクルタイプ
 	std::unique_ptr<ParticleType::Base> _mType{};
 
@@ -80,4 +84,7 @@ public:
 
 	// CSVファイル読み込み
 	ParticleEmitter* LoadCSV(const char* filePath);
+
+	// ループフラグ切り替え
+	ParticleEmitter* SetLoop(bool isLoop);
 };

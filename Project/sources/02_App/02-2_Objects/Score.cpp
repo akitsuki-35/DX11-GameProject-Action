@@ -12,25 +12,21 @@
 
 void Score::Initialize()
 {
-	//TextRenderer* renderer = AddComponent<TextRenderer>(this);
+	TextRenderer* renderer = AddComponent<TextRenderer>(this);
 
-	//mTransform.SetPosition({ 0.0f, 0.0f, 0.0f });
+	// トランスフォームの初期化
+	mTransform = Transform(
+		{ 50.0f, 50.0f, 0.0f },
+		{ 0.0f, 0.0f,  0.0f },
+		{ 1.0f, 1.0f,  1.0f }
+	);
 
-	//renderer->SetFont("LogoTypeGothic")->
-	//	SetText("あの\\c[7]イーハトーヴォ\\c[0]のすきとおった風、夏でも底に冷たさをもつ青いそら、うつくしい森で飾られたモリーオ市、郊外のぎらぎらひかる草の波")
-	//	->SetTextSize(48.0f)
-	//	->LoadShader("FontOutline");
+	std::string score = "10000";
 
-	UIRenderer* renderer = AddComponent<UIRenderer>(this);
-
-	renderer->GetCanvas().CreateCanvas(UIStyle::Pivot::LeftTop);
-
-	mTransform.SetPosition({ 0.0f, 0.0f, 0.0f });
-	mTransform.SetScale({ 1000.0f, 100.0f, 0.0f });
-
-	renderer->LoadTexture("assets\\textures\\game_ui.png")->LoadShader("UI");
-
-	mValue = 0;
+	renderer->SetFont("Kaisotai")->
+		SetText("Score : " + score)
+		->SetTextSize(64.0f)->SetShadowColor({0.0f, 0.5f, 1.0f, 1.0f})->SetColor({0.5f, 1.0f, 0.3f, 1.0f})
+		->LoadShader("Font");
 }
 
 void Score::Finalize()

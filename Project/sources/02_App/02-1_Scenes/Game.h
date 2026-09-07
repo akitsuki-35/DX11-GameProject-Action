@@ -15,6 +15,7 @@
 	前方宣言
 ------------------------------------------------------------*/
 class GameObject;
+class ParticleEmitter;
 
 /*============================================================
 *	@class	: Game
@@ -23,7 +24,7 @@ class GameObject;
 class Game : public Scene
 {
 private:
-	static std::list<GameObject*> gameObjects;
+	ParticleEmitter* _mEffect{ nullptr };
 
 public:
 	void Initialize() override;

@@ -98,5 +98,7 @@ void Scene::Draw() const
 		for (auto* obj : layerQueue[layer]) {
 			obj->Draw();
 		}
+
+		D3D11::DeviceManager::getInstance().SetDepthStencilState(D3D11::RenderState::Depth::Enable);
 	}
 }

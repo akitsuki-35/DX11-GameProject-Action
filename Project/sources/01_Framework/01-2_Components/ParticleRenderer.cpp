@@ -55,6 +55,9 @@ void ParticleRenderer::Draw() const
 	// ビルボード用回転行列取得
 	XMMATRIX r = _mEmitter->GetTransform().createBillboardRotation(view);
 
+	// パラメータ設定
+	D3D11::BufferManager::getInstance().SetParameter(mParameter);
+
 	mainColorDraw(r);
 	subColorDraw(r);
 

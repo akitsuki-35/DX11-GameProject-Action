@@ -12,12 +12,17 @@ void main(in VS_IN In, out PS_IN Out)
     Out.Position = mul(In.Position, wvp); // 頂点座標を行列で変換して出力
     
     // 法線の回転
-    float4 worldNormal, normal;
+    // 法線ベクトルの平行移動成分を0にする
+    float4 normal = float4(In.Normal.xyz, 0.0f);
     
-    normal = float4(In.Normal.xyz, 0.0f); // 法線ベクトルの平行移動成分を0にする
-    worldNormal = mul(normal, World); // 法線をワールド行列で回転
-    worldNormal = normalize(worldNormal); // 回転後の法線を正規化
-    Out.Normal = worldNormal; // 回転後の法線を出力
+    // 法線をワールド行列で回転
+    float4 worldNormal = mul(normal, World);
+    
+    // 回転後の法線を正規化
+    worldNormal = normalize(worldNormal);
+    
+    // 回転後の法線を出力
+    Out.Normal = worldNormal;
 
     // 光源計算
     // 光ベクトルと法線の内積計算

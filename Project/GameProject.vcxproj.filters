@@ -321,6 +321,9 @@
     <ClCompile Include="sources\02_App\02-2_Objects\ScreenFilter.cpp">
       <Filter>02_App\02-2_Objects\Game</Filter>
     </ClCompile>
+    <ClCompile Include="sources\01_Framework\01-2_Components\Timer.cpp">
+      <Filter>01_Framework\01-2_Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\00_Engine\00-1_Core\Application.h">
@@ -587,11 +590,11 @@
     <ClInclude Include="sources\02_App\02-2_Objects\ScreenFilter.h">
       <Filter>02_App\02-2_Objects\Game</Filter>
     </ClInclude>
+    <ClInclude Include="sources\01_Framework\01-2_Components\Timer.h">
+      <Filter>01_Framework\01-2_Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="sources\03_HLSL\Common.hlsl">
-      <Filter>03_HLSL</Filter>
-    </FxCompile>
     <FxCompile Include="sources\03_HLSL\UnlitPS.hlsl">
       <Filter>03_HLSL</Filter>
     </FxCompile>
@@ -611,6 +614,21 @@
       <Filter>03_HLSL</Filter>
     </FxCompile>
     <FxCompile Include="sources\03_HLSL\FontOutlinePS.hlsl">
+      <Filter>03_HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="sources\03_HLSL\Common.hlsl">
+      <Filter>03_HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="sources\03_HLSL\PhongPS.hlsl">
+      <Filter>03_HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="sources\03_HLSL\PhongVS.hlsl">
+      <Filter>03_HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="sources\03_HLSL\PBRPS.hlsl">
+      <Filter>03_HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="sources\03_HLSL\CookTranceSub.hlsl">
       <Filter>03_HLSL</Filter>
     </FxCompile>
   </ItemGroup>

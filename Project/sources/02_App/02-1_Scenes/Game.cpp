@@ -40,9 +40,6 @@ void Game::Initialize()
 	// カメラ
 	AddGameObject<Camera>();
 
-	// ゲームモード（制御用ダミーオブジェクト）
-	AddGameObject<GameMode>();
-
 	// スカイドーム
 	AddGameObject<Sky>();
 
@@ -61,6 +58,9 @@ void Game::Initialize()
 	// 2Dオブジェクト
 	AddGameObject<ScreenFilter>();
 	AddGameObject<Score>();
+
+	// ゲームモード（制御用ダミーオブジェクト）
+	AddGameObject<GameMode>();
 }
 
 void Game::Finalize()
@@ -71,10 +71,10 @@ void Game::Finalize()
 void Game::Update(double deltaTime)
 {
 	Scene::Update(deltaTime);
-
+	
 	// ステージエフェクト更新
 	stageEffectUpdate();
-
+	
 	if (Input::GetKeyTrigger(VK_RETURN)) {
 		SceneManager::getInstance().SceneChange<Result>();
 	}

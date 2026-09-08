@@ -7,6 +7,7 @@
 *	@updated : 2026/08/04
 *============================================================*/
 #include "Enemy.h"
+#include "GameMode.h"
 #include "ModelRenderer.h"
 
 void Enemy::Initialize()
@@ -31,6 +32,7 @@ void Enemy::Finalize()
 
 void Enemy::Update(double deltaTime)
 {
+	if (GameMode::IsHitStop()) return;
 	GameObject::Update(deltaTime);
 }
 

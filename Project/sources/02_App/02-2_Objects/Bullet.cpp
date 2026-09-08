@@ -10,6 +10,7 @@
 #include "Game.h"
 #include "GameMode.h"
 #include "Enemy.h"
+#include "Camera.h"
 #include "ParticleEmitter.h"
 #include "Input.h"
 #include "ModelRenderer.h"
@@ -43,6 +44,8 @@ void Bullet::Finalize()
 
 void Bullet::Update(double deltaTime)
 {
+	if (GameMode::IsHitStop()) return;
+
 	// dtをfloatに変換
 	float dt = static_cast<float>(deltaTime);
 
@@ -69,14 +72,21 @@ void Bullet::Update(double deltaTime)
 
 		// 距離がオブジェクト半径より小さい
 		if (length < 1.0f) {
-			GameMode::AudioPlay("Hit");
+			// ヒット演出
+			if (!enemy->IsDestroy()) {
+				GameMode::AudioPlay("Hit");
+				auto camera = Game::GetGameObject<Camera>();
+				camera->Shake(0.15f);
+				GameMode::SetHitStop(0.1);
+			}
+
 			// 命中した敵・弾・パーティクルエミッタを削除
 			enemy->SetDestroy();
 			SetDestroy();
 			_mEmitter->SetDestroy();
 
 			// 爆発エフェクト
-			Game::AddGameObject<ParticleEmitter>()->LoadCSV("assets\\csv\\exp.csv")->SetLoop(false)->SetPosition({enemy->GetPosition().x,
+			Game::AddGameObject<ParticleEmitter>()->LoadCSV("assets\\csv\\exp.csv")->SetLoop(false)->SetPosition({ enemy->GetPosition().x,
 				enemy->GetPosition().y + 1.0f, enemy->GetPosition().z });
 
 			break;

@@ -12,6 +12,11 @@
 #include "AudioPlayer.h"
 #include <unordered_map>
 
+/*------------------------------------------------------------
+	前方宣言
+------------------------------------------------------------*/
+class Timer;
+
 /*============================================================
 *	@class	: GameMode
 *	@brief	: ゲーム制御用クラス
@@ -21,6 +26,16 @@ class GameMode : public GameObject
 private:
 	// ゲーム内BGM・SE
 	static inline std::unordered_map<std::string, AudioPlayer*> _mGameAudios{};
+	
+	// ヒットストップ
+	static inline Timer* _mHitStop{ nullptr };
+
+private:
+	// コピー禁止
+	GameMode(const GameMode&) = delete;
+	GameMode& operator=(const GameMode&) = delete;
+	GameMode(GameMode&&) = delete;
+	GameMode& operator=(GameMode&&) = delete;
 
 public:
 	GameMode() = default;
@@ -32,4 +47,6 @@ public:
 
 	// オーディオ再生
 	static void AudioPlay(std::string key);
+	static void SetHitStop(double time);
+	static bool IsHitStop();
 };

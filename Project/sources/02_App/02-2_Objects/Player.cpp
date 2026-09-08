@@ -29,7 +29,7 @@ void Player::Initialize()
 
 	// モデル・シェーダー読み込み
 	AddComponent<ModelRenderer>(this)->LoadModel("assets\\models\\Player.fbx")->
-		LoadShader("Directional");
+		LoadShader("Phong");
 }
 
 void Player::Finalize()
@@ -39,6 +39,8 @@ void Player::Finalize()
 
 void Player::Update(double deltaTime)
 {
+	if (GameMode::IsHitStop()) return;
+
 	// dtをfloatに変換
 	float dt = static_cast<float>(deltaTime);
 

@@ -10,7 +10,7 @@
 #include "ParticleRenderer.h"
 #include "ParticleBox.h"
 #include "MeshTypes.h"
-#include "Input.h"
+#include "GameMode.h"
 
 using namespace MeshType;
 using namespace DirectX;
@@ -38,6 +38,8 @@ void ParticleEmitter::Finalize()
 
 void ParticleEmitter::Update(double deltaTime)
 {
+	if (GameMode::IsHitStop()) return;
+
 	_mType->Update(deltaTime);
 
 	mCurrentInterval -= deltaTime;

@@ -151,6 +151,9 @@ void TextRenderer::Draw() const
 		material.TextureEnable = true;
 		D3D11::BufferManager::getInstance().SetMaterial(material);
 
+		// パラメータ設定
+		D3D11::BufferManager::getInstance().SetParameter(mParameter);
+
 		mCanvas.Bind();
 
 		glyph->Texture->Bind();

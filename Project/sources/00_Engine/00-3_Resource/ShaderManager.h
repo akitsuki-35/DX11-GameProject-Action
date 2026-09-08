@@ -78,5 +78,8 @@ namespace ShaderSet {
 
 		ShaderManager::getInstance().Register("Directional",
 			"assets\\shaders\\DirectionalVS.cso", "assets\\shaders\\DirectionalPS.cso");
+
+		ShaderManager::getInstance().Register("Phong",
+			"assets\\shaders\\PhongVS.cso", "assets\\shaders\\PhongPS.cso");
 	}
 }

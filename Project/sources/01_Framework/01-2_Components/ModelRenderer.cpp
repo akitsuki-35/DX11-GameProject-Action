@@ -51,6 +51,9 @@ void ModelRenderer::Draw() const
             // マテリアルのセット
             D3D11::BufferManager::getInstance().SetMaterial(material);
 
+            // パラメータ設定
+            D3D11::BufferManager::getInstance().SetParameter(mParameter);
+
             if (mTextures.Albedo)
             {
                 // 外部テクスチャを使用して描画

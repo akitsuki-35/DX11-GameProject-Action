@@ -39,6 +39,7 @@ public:
 	virtual ~GameObject() = default;
 
 	void SetDestroy() { mIsDestroy = true; }
+	bool IsDestroy() const { return mIsDestroy; }
 	bool Destroy() {
 		if (mIsDestroy) {
 			// 削除フラグがオンなら削除

@@ -87,6 +87,9 @@ void GridRenderer::Draw() const
 	material.TextureEnable = static_cast<bool>(_mTexture != nullptr);
 	D3D11::BufferManager::getInstance().SetMaterial(material);
 
+	// パラメータ設定
+	D3D11::BufferManager::getInstance().SetParameter(mParameter);
+
 	// 頂点バッファ設定
 	UINT stride = sizeof(Element::VERTEX3D);
 	UINT offset = 0;

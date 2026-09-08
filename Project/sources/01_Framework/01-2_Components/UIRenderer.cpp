@@ -30,6 +30,9 @@ void UIRenderer::Draw() const
 	material.TextureEnable = static_cast<bool>(_mTexture != nullptr);
 	D3D11::BufferManager::getInstance().SetMaterial(material);
 
+	// パラメータ設定
+	D3D11::BufferManager::getInstance().SetParameter(mParameter);
+
 	mCanvas.Bind();
 
 	if (material.TextureEnable) {

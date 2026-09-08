@@ -10,6 +10,11 @@
 
 #include "GameObject.h"
 
+/*------------------------------------------------------------
+	前方宣言
+------------------------------------------------------------*/
+class Timer;
+
 /*============================================================
 *	@class	: Score
 *	@brief	: スコア
@@ -19,6 +24,7 @@ class Score : public GameObject
 private:
 	int mValue{};
 	static constexpr int DIGIT{ 2 };
+	Timer* _mTimer{ nullptr };
 
 public:
 	Score() = default;

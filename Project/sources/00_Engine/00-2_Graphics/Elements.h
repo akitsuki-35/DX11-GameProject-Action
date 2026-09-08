@@ -58,7 +58,8 @@ namespace Element {
 	----------------------------------------------------*/
 	struct LIGHT
 	{
-		int Enable;
+		DirectX::XMFLOAT4 Position;
+		bool Enable;
 		float Dummy[3];
 		DirectX::XMFLOAT4 Direction;
 		DirectX::XMFLOAT4 Diffuse;

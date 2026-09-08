@@ -7,6 +7,7 @@
 *	@updated : 2026/09/07
 *============================================================*/
 #include "GameMode.h"
+#include "Timer.h"
 
 void GameMode::Initialize()
 {
@@ -22,6 +23,8 @@ void GameMode::Initialize()
 
 	AudioPlayer* hit = AddComponent<AudioPlayer>(this)->LoadAudio("assets\\audio\\Hit.mp3")->LoadAudio("assets\\audio\\Hit.mp3")->SetVolume(0.1f);
 	_mGameAudios.emplace("Hit", hit);
+
+	_mHitStop = AddComponent<Timer>(this);
 }
 
 void GameMode::Finalize()
@@ -47,4 +50,14 @@ void GameMode::AudioPlay(std::string key)
 	if (it != _mGameAudios.end()) {
 		_mGameAudios[key]->Play();
 	}
+}
+
+void GameMode::SetHitStop(double time)
+{
+	_mHitStop->Start(time);
+}
+
+bool GameMode::IsHitStop()
+{
+	return _mHitStop->GetEnable();
 }

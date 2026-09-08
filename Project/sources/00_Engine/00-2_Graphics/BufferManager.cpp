@@ -26,11 +26,11 @@ void D3D11::BufferManager::Initialize()
 
 	// ライト初期化
 	Element::LIGHT light{};
-	light.Position = { 0.0f, 0.0f, 0.0f, 0.0f };
+	light.Position = { 0.0f, 1.0f, 0.0f, 0.0f };
 	light.Enable = true;
 	light.Direction = XMFLOAT4(0.0f, -1.0f, 0.0f, 0.0f);
-	light.Ambient = XMFLOAT4(0.4f, 0.4f, 0.4f, 1.0f);
-	light.Diffuse = XMFLOAT4(0.2f, 0.2f, 0.3f, 1.0f);
+	light.Ambient = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	light.Diffuse = XMFLOAT4(0.7f, 0.7f, 0.9f, 1.0f);
 	SetLight(light);
 
 	// マテリアル初期化

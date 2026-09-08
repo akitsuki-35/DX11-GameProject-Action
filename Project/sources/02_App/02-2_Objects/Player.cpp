@@ -29,7 +29,10 @@ void Player::Initialize()
 
 	// モデル・シェーダー読み込み
 	AddComponent<ModelRenderer>(this)->LoadModel("assets\\models\\Player.fbx")->
-		LoadShader("Phong");
+		LoadTexture("Roughness.jpg", ModelRenderer::TextureType::Roughness)->
+		LoadTexture("Metalness.jpg", ModelRenderer::TextureType::Metalness)->
+		SetParameter({ 0.6f, 0.9f, 1.0f, 0.0f })->
+		LoadShader("PBR");
 }
 
 void Player::Finalize()
@@ -78,6 +81,10 @@ void Player::Update(double deltaTime)
 	// 下キーでスピードダウン
 	if (Input::GetKeyPress(VK_DOWN)) {
 		mVelocity -= forward * 30.0f * dt;
+	}
+	else if (Input::GetKeyPress('B')) {
+		mVelocity.x = 0.0f;
+		mVelocity.z = 0.0f;
 	}
 
 	// カメラ方向にプレイヤーを向ける

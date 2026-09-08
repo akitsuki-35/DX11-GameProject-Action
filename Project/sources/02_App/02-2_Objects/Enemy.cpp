@@ -22,7 +22,11 @@ void Enemy::Initialize()
 	mAccel = { 0.0f, 0.0f, 0.0f };
 
 	// コンポーネント読込
-	AddComponent<ModelRenderer>(this)->LoadModel("assets\\models\\Enemy.fbx")->LoadShader("Directional");
+	AddComponent<ModelRenderer>(this)->LoadModel("assets\\models\\Enemy.fbx")->
+		LoadTexture("Roughness.jpg", ModelRenderer::TextureType::Roughness)->
+		LoadTexture("Metalness.jpg", ModelRenderer::TextureType::Metalness)->
+		SetParameter({ 0.6f, 0.9f, 1.0f, 0.0f })->
+		LoadShader("PBR");
 }
 
 void Enemy::Finalize()

@@ -81,5 +81,8 @@ namespace ShaderSet {
 
 		ShaderManager::getInstance().Register("Phong",
 			"assets\\shaders\\PhongVS.cso", "assets\\shaders\\PhongPS.cso");
+
+		ShaderManager::getInstance().Register("PBR",
+			"assets\\shaders\\PhongVS.cso", "assets\\shaders\\PBRPS.cso");
 	}
 }

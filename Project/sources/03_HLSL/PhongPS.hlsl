@@ -25,7 +25,10 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
         outDiffuse = Material.Diffuse;
     }
     
-    outDiffuse.rgb *= In.Diffuse.rgb * light; // 頂点の明るさを合成
+    float3 diffuse = light * (outDiffuse.rgb * In.Diffuse.rgb);
+    float3 ambient = Light.Ambient.rgb * Light.Diffuse.rgb * outDiffuse.rgb;
+    
+    outDiffuse.rgb = diffuse + ambient; // 頂点の明るさを合成
     outDiffuse.a = In.Diffuse.a; // 元の頂点のアルファ値のまま出力
     
     // 視線ベクトル作成

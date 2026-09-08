@@ -55,6 +55,12 @@ Renderer* Renderer::SetColor(const DirectX::XMFLOAT4 color)
 	return this;
 }
 
+Renderer* Renderer::SetParameter(const DirectX::XMFLOAT4 parameter)
+{
+	mParameter = parameter;
+	return this;
+}
+
 void Renderer::Begin() const
 {
 	switch (mBlendState)

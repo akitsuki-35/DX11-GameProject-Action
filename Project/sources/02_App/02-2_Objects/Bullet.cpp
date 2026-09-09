@@ -44,6 +44,8 @@ void Bullet::Finalize()
 
 void Bullet::Update(double deltaTime)
 {
+	if (mDestroy) return;
+
 	if (GameMode::IsHitStop()) return;
 
 	// dtをfloatに変換
@@ -51,7 +53,7 @@ void Bullet::Update(double deltaTime)
 
 	// 現在の座標を取得
 	Vector3 position = mTransform.GetPosition();
-
+	 
 	// 弾の直進
 	position += mVelocity * dt;
 
@@ -74,20 +76,19 @@ void Bullet::Update(double deltaTime)
 		if (length < 1.0f) {
 			// ヒット演出
 			if (!enemy->IsDestroy()) {
-				GameMode::AudioPlay("Hit");
-				auto camera = Game::GetGameObject<Camera>();
-				camera->Shake(0.15f);
-				GameMode::SetHitStop(0.1);
+				hitEffect(enemy);
 			}
 
 			// 命中した敵・弾・パーティクルエミッタを削除
-			enemy->SetDestroy();
+			enemy->Damage();
 			SetDestroy();
 			_mEmitter->SetDestroy();
 
-			// 爆発エフェクト
-			Game::AddGameObject<ParticleEmitter>()->LoadCSV("assets\\csv\\exp.csv")->SetLoop(false)->SetPosition({ enemy->GetPosition().x,
-				enemy->GetPosition().y + 1.0f, enemy->GetPosition().z });
+			if (enemy->IsDestroy()) {
+				// 爆発エフェクト
+				Game::AddGameObject<ParticleEmitter>()->LoadCSV("assets\\csv\\Explosion.csv")->SetEmitterLife(1.0)->SetPosition({enemy->GetPosition().x,
+					enemy->GetPosition().y + 1.0f, enemy->GetPosition().z });
+			}
 
 			break;
 		}
@@ -110,4 +111,22 @@ void Bullet::Update(double deltaTime)
 void Bullet::Draw() const
 {
 	GameObject::Draw();
+}
+
+void Bullet::hitEffect(Enemy* enemy)
+{
+	// ヒットSE
+	GameMode::AudioPlay("Hit");
+
+	// 爆発エフェクト
+	Game::AddGameObject<ParticleEmitter>()->LoadCSV("assets\\csv\\Explosion.csv")->SetEmitterLife(0.5)->
+		SetPosition({ enemy->GetPosition().x, enemy->GetPosition().y + 1.0f, enemy->GetPosition().z });
+
+	// シェイク
+	enemy->Shake(0.15f);
+	auto camera = Game::GetGameObject<Camera>();
+	camera->Shake(0.15f);
+
+	// ヒットストップ
+	GameMode::SetHitStop(0.1);
 }

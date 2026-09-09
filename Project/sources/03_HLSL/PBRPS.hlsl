@@ -51,6 +51,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
     eyev = normalize(eyev);
     
     float3 lit = 0;
+    
     for (int i = 0; i < Parameter.z; i++)
     {
         // ŒõŒ¹‚Ö‚ÌƒxƒNƒgƒ‹
@@ -79,8 +80,6 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
     
     outDiffuse.rgb = light + ambient;
     outDiffuse.a = albedo.a * In.Diffuse.a;
-    
-    return;
 }
 
 float CalculateDiffuseFromFresnel(float3 N, float3 L, float3 V)

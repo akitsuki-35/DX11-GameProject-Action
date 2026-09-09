@@ -28,10 +28,6 @@ protected:
 
 	Timer* _mShakeTimer{ nullptr }; // カメラシェイク用タイマー
 	float mShakeIntensity{}; // シェイク強度
-	
-	// シェイク方向
-	bool mShakeX{ true };
-	bool mShakeY{ true };
 
 public:
 	virtual ~Camera() = default;
@@ -48,6 +44,7 @@ public:
 	// カメラ行列のセット
 	void SetMatrix() const;
 
+	// カメラシェイク
 	void Shake(float intensity, double shakeTime = 1.0);
 
 private:

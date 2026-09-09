@@ -15,6 +15,7 @@
 	前方宣言
 ------------------------------------------------------------*/
 class ParticleEmitter;
+class Enemy;
 
 /*============================================================
 *	@class	: Bullet
@@ -41,4 +42,7 @@ public:
 	void Draw() const override;
 
 	void SetVelocity(const Vector3& velocity) { mVelocity = velocity; }
+
+private:
+	void hitEffect(Enemy* enemy);
 };

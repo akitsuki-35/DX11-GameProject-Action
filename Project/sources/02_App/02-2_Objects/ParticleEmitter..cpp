@@ -11,6 +11,7 @@
 #include "ParticleBox.h"
 #include "MeshTypes.h"
 #include "GameMode.h"
+#include "Timer.h"
 
 using namespace MeshType;
 using namespace DirectX;
@@ -50,11 +51,14 @@ void ParticleEmitter::Update(double deltaTime)
 	}
 
 	if (!mLoop) {
-		mLife--;
-		if (mLife <= 0) {
+		alphaUpdate();
+
+		if (_mEmitterLife->IsTimeUp()) {
 			SetDestroy();
 		}
 	}
+
+	GameObject::Update(deltaTime);
 }
 
 void ParticleEmitter::Draw() const
@@ -72,8 +76,31 @@ ParticleEmitter* ParticleEmitter::LoadCSV(const char* filePath)
 	return this;
 }
 
-ParticleEmitter* ParticleEmitter::SetLoop(bool isLoop)
+ParticleEmitter* ParticleEmitter::SetEmitterLife(double lifeTime)
 {
-	mLoop = isLoop;
+	// エミッタの寿命（再生時間）をセット
+	_mEmitterLife = AddComponent<Timer>(this);
+	_mEmitterLife->Start(lifeTime);
+
+	// ループしない設定にする
+	mLoop = false;
+
 	return this;
+}
+
+void ParticleEmitter::alphaUpdate()
+{
+	// エミッタ寿命に応じて透明度を変更
+	auto renderer = GetComponent<ParticleRenderer>();
+	float alpha = _mEmitterLife->GetProgress();
+
+	// メインカラー透明度更新
+	DirectX::XMFLOAT4 color = renderer->mColor;
+	color.w = alpha;
+	renderer->mColor = color;
+
+	// サブカラー透明度更新
+	color = renderer->mSubColor;
+	color.w = alpha;
+	renderer->mSubColor = color;
 }

@@ -24,6 +24,11 @@ struct ParticleDesc {
 	int Life{ 60 }; // 全体フレーム
 };
 
+/*------------------------------------------------------------
+	前方宣言
+------------------------------------------------------------*/
+class Timer;
+
 /*============================================================
 *	@class	: ParticleEmitter
 *	@brief	: パーティクルエミッタ
@@ -49,7 +54,9 @@ private:
 
 	// ループフラグ
 	bool mLoop{ true };
-	int mLife{ 60 };
+
+	// エミッタ自体の寿命
+	Timer* _mEmitterLife{ nullptr };
 
 	// パーティクルタイプ
 	std::unique_ptr<ParticleType::Base> _mType{};
@@ -85,6 +92,9 @@ public:
 	// CSVファイル読み込み
 	ParticleEmitter* LoadCSV(const char* filePath);
 
-	// ループフラグ切り替え
-	ParticleEmitter* SetLoop(bool isLoop);
+	// エミッタ寿命のセット
+	ParticleEmitter* SetEmitterLife(double lifeTime);
+
+private:
+	void alphaUpdate();
 };

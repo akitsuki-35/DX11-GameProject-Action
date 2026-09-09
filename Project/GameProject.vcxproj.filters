@@ -324,6 +324,9 @@
     <ClCompile Include="sources\01_Framework\01-2_Components\Timer.cpp">
       <Filter>01_Framework\01-2_Components</Filter>
     </ClCompile>
+    <ClCompile Include="sources\02_App\02-2_Objects\GameObject.cpp">
+      <Filter>02_App\02-2_Objects\Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\00_Engine\00-1_Core\Application.h">

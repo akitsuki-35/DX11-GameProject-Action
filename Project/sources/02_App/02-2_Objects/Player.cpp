@@ -83,8 +83,7 @@ void Player::Update(double deltaTime)
 		mVelocity -= forward * 30.0f * dt;
 	}
 	else if (Input::GetKeyPress('B')) {
-		mVelocity.x = 0.0f;
-		mVelocity.z = 0.0f;
+
 	}
 
 	// カメラ方向にプレイヤーを向ける
@@ -118,7 +117,7 @@ void Player::Update(double deltaTime)
 		GameManager::AudioPlay("Shot");
 		Bullet* bullet = Game::AddGameObject<Bullet>();
 		bullet->SetPosition(mTransform.GetPosition());
-		bullet->SetVelocity(mTransform.GetForward() * 100.0f);
+		bullet->SetVelocity(forward * 100.0f);
 	}
 
 	// 座標と回転をセット

@@ -12,6 +12,7 @@
 #include "Enemy.h"
 #include "Camera.h"
 #include "ParticleEmitter.h"
+#include "Score.h"
 #include "Input.h"
 #include "ModelRenderer.h"
 #include "ParticleRenderer.h"
@@ -115,6 +116,7 @@ void Bullet::hitEffect(Enemy* enemy)
 		emitterLife = 1.0;
 		shake = 0.25f;
 		hitStop = 0.5;
+		Game::GetGameObject<Score>()->AddScore(2000);
 	}
 
 	// ヒットSE

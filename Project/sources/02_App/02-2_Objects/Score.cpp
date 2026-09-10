@@ -14,7 +14,7 @@
 
 void Score::Initialize()
 {
-	TextRenderer* renderer = AddComponent<TextRenderer>(this);
+	_mRenderer = AddComponent<TextRenderer>(this);
 
 	// トランスフォームの初期化
 	mTransform = Transform(
@@ -27,13 +27,10 @@ void Score::Initialize()
 	std::string score = "000000";
 
 	// フォントの設定
-	renderer->SetFont("Kaisotai")->
-		SetText("Score  " + score)
+	_mRenderer->SetFont("Kaisotai")->
+		SetText("score")
 		->SetTextSize(64.0f)->SetShadowColor({0.0f, 0.5f, 1.0f, 1.0f})->SetColor({0.5f, 1.0f, 0.3f, 1.0f})
 		->LoadShader("Font");
-
-	_mTimer = AddComponent<Timer>(this);
-	_mTimer->Start(10.0);
 }
 
 void Score::Finalize()
@@ -43,10 +40,9 @@ void Score::Finalize()
 
 void Score::Update(double deltaTime)
 {
-	std::string time = std::format("{:.0f}", _mTimer->GetTime());
+	std::string score = std::format("{:06}", mScore);
 
-	auto font = GetComponent<TextRenderer>();
-	font->SetText(time + " sec");
+	_mRenderer->SetText("score  " + score);
 
 	GameObject::Update(deltaTime);
 }

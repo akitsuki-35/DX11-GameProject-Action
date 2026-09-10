@@ -15,7 +15,7 @@
 void TitleManager::Initialize()
 {
 	// トランジション処理
-	Transition::getInstance().Start(1.0, true);
+	Transition::getInstance().Start(0.5, true);
 }
 
 void TitleManager::Finalize()
@@ -27,7 +27,7 @@ void TitleManager::Update(double deltaTime)
 {
 	// シーン遷移処理
 	if (!Transition::getInstance().GetTransitionActive() && Input::GetKeyTrigger(VK_RETURN)) {
-		Transition::getInstance().Start(1.0, false);
+		Transition::getInstance().Start(0.5, false);
 		mTransitionWait = true;
 	}
 

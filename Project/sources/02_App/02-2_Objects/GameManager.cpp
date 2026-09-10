@@ -19,7 +19,7 @@
 void GameManager::Initialize()
 {
 	// トランジション処理
-	Transition::getInstance().Start(1.0, true);
+	Transition::getInstance().Start(0.5, true);
 
 	_mGameAudios.clear();
 

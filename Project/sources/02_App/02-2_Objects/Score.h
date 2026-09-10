@@ -14,6 +14,7 @@
 	前方宣言
 ------------------------------------------------------------*/
 class Timer;
+class TextRenderer;
 
 /*============================================================
 *	@class	: Score
@@ -22,9 +23,8 @@ class Timer;
 class Score : public GameObject
 {
 private:
-	int mValue{};
-	static constexpr int DIGIT{ 2 };
-	Timer* _mTimer{ nullptr };
+	int mScore{};
+	TextRenderer* _mRenderer{ nullptr };
 
 public:
 	Score() = default;
@@ -34,5 +34,5 @@ public:
 	void Update(double deltaTime) override;
 	void Draw() const override;
 
-	void Add(int value) { mValue += value; }
+	void AddScore(int add) { mScore += add; }
 };

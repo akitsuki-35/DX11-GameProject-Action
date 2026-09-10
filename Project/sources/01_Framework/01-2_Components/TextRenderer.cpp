@@ -56,8 +56,8 @@ void TextRenderer::Draw() const
 	Transform transform = _mOwner->GetTransform();
 
 	// スタート位置と現在位置を初期化
-	const float startX = transform.GetPosition().x;
-	const float startY = transform.GetPosition().y;
+	const float startX = transform.GetPosition().x + mOffset.x;
+	const float startY = transform.GetPosition().y + mOffset.y;
 
 	float currentX = startX;
 	float currentY = startY;
@@ -217,6 +217,12 @@ TextRenderer* TextRenderer::SetText(const std::string& text)
 TextRenderer* TextRenderer::SetCharsPerLine(const size_t& charsPerLine)
 {
 	mCharsPerLine = charsPerLine;
+	return this;
+}
+
+TextRenderer* TextRenderer::SetOffset(const Vector2& offset)
+{
+	mOffset = offset;
 	return this;
 }
 

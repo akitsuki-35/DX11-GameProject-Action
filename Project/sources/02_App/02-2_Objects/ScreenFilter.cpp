@@ -21,7 +21,7 @@ void ScreenFilter::Initialize()
 
 	// 座標とスケールをセット
 	mTransform.SetPosition({ Screen::CENTER_X, Screen::CENTER_Y, 0.0f });
-	mTransform.SetScale({ Screen::WIDTH + 100.0f, Screen::HEIGHT + 100.0f, 0.0f });
+	mTransform.SetScale({ Screen::WIDTH, Screen::HEIGHT, 0.0f });
 
 	// テクスチャのセット
 	renderer->LoadTexture("assets\\textures\\filter.png")->LoadShader("UI");

@@ -48,7 +48,13 @@ namespace System {
 
 	public:
 		void Initialize();
+
+		// タイマー進行
 		bool Tick();
+
+		// タイマーリセット
+		void Refresh();
+
 		double GetDeltaTime() const { return mFps; }
 		void SetFps(double fps) { mFps = 1.0 / fps; }
 	};

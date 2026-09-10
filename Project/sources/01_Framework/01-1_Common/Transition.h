@@ -8,16 +8,12 @@
 *============================================================*/
 #pragma once
 
+#include "Timer.h"
 #include "UIRenderer.h"
 #include "Transform.h"
 #include "Config.h"
 #include <DirectXMath.h>
 #include <memory>
-
-/*------------------------------------------------------------
-	前方宣言
-------------------------------------------------------------*/
-class UIRenderer;
 
 /*============================================================
 *	@class	: Transition
@@ -26,15 +22,15 @@ class UIRenderer;
 class Transition
 {
 public:
-	// フェードの推移状態
-	enum class State : int
-	{
-		None,
-		FadeOut,
-		FadeOutEnd,
-		FadeIn,
-		FadeInEnd
-	};
+	//// フェードの推移状態
+	//enum class State : int
+	//{
+	//	None,
+	//	FadeOut,
+	//	FadeOutEnd,
+	//	FadeIn,
+	//	FadeInEnd
+	//};
 
 /*--------------------------------------------------
 	Singleton用
@@ -59,13 +55,17 @@ private:
 	メンバ変数・メンバ関数
 ----------------------------------------------------*/
 private:
-	State mState{};
-	double mTime{ 60.0f }; // トランジション総時間
-	double mAccumulatedtime{}; // 総経過時間
-	double mStartTime{}; // トランジション開始時間
+	// タイマー
+	std::unique_ptr<Timer> _mTimer{};
 
-	std::unique_ptr<UIRenderer> _mRenderer{}; // レンダラー
-	Transform mTransform{}; // トランスフォーム
+	// レンダラー
+	std::unique_ptr<UIRenderer> _mRenderer{};
+
+	// トランスフォーム
+	Transform mTransform{};
+
+	// フェードインorフェードアウト？
+	bool mFadeIn{};
 
 public:
 	void Initialize();
@@ -76,5 +76,6 @@ public:
 	// フェード開始
 	void Start(const double& fadeTime, const bool& isFadeIn,
 		const Color::Index& color = Color::Index::Black);
-	Transition::State GetState() const { return mState; }
+
+	bool GetTransitionActive();
 };

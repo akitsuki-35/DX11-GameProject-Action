@@ -7,6 +7,7 @@
 *	@updated : 2026/08/04
 *============================================================*/
 #include "SceneManager.h"
+#include "SystemTimer.h"
 #include "Graphics.h"
 #include "Transition.h"
 #include "Input.h"
@@ -25,7 +26,12 @@ void SceneManager::Initialize()
 	Input::Initialize();
 	AudioPlayer::InitializeMaster();
 
+#if defined(DEBUG) || defined(_DEBUG)
 	SceneChange<Game>();
+#else
+	SceneChange<Title>();
+#endif
+
 	mCurrentScene = std::move(mNextScene);
 	mCurrentScene->Initialize();
 }
@@ -74,8 +80,10 @@ void SceneManager::Update(double deltaTime)
 		mCurrentScene = std::move(mNextScene);
 
 		mCurrentScene->Initialize();
-	}
 
+		// ロード中の累積時間をリセット
+		System::Timer::getInstance().Refresh();
+	}
 }
 
 /*------------------------------------------------------------

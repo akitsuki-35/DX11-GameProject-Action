@@ -27,6 +27,8 @@ private:
 	bool mEnable{};
 
 public:
+	Timer() = default;
+
 	Timer(GameObject* owner)
 		: Component(owner){}
 

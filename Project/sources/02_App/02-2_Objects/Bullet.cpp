@@ -8,7 +8,7 @@
 *============================================================*/
 #include "Bullet.h"
 #include "Game.h"
-#include "GameMode.h"
+#include "GameManager.h"
 #include "Enemy.h"
 #include "Camera.h"
 #include "ParticleEmitter.h"
@@ -46,7 +46,7 @@ void Bullet::Update(double deltaTime)
 {
 	if (mDestroy) return;
 
-	if (GameMode::IsHitStop()) return;
+	if (GameManager::IsHitStop()) return;
 
 	// dtをfloatに変換
 	float dt = static_cast<float>(deltaTime);
@@ -73,22 +73,14 @@ void Bullet::Update(double deltaTime)
 		float length = dir.Length();
 
 		// 距離がオブジェクト半径より小さい
-		if (length < 1.0f) {
-			// ヒット演出
-			if (!enemy->IsDestroy()) {
-				hitEffect(enemy);
-			}
-
+		if (length < 1.5f) {
 			// 命中した敵・弾・パーティクルエミッタを削除
 			enemy->Damage();
 			SetDestroy();
 			_mEmitter->SetDestroy();
 
-			if (enemy->IsDestroy()) {
-				// 爆発エフェクト
-				Game::AddGameObject<ParticleEmitter>()->LoadCSV("assets\\csv\\Explosion.csv")->SetEmitterLife(1.0)->SetPosition({enemy->GetPosition().x,
-					enemy->GetPosition().y + 1.0f, enemy->GetPosition().z });
-			}
+			// ヒット演出
+			hitEffect(enemy);
 
 			break;
 		}
@@ -115,18 +107,28 @@ void Bullet::Draw() const
 
 void Bullet::hitEffect(Enemy* enemy)
 {
+	double emitterLife = 0.5;
+	float shake = 0.15f;
+	double hitStop = 0.1;
+
+	if (enemy->IsDestroy()) {
+		emitterLife = 1.0;
+		shake = 0.25f;
+		hitStop = 0.5;
+	}
+
 	// ヒットSE
-	GameMode::AudioPlay("Hit");
+	GameManager::AudioPlay("Hit");
 
 	// 爆発エフェクト
-	Game::AddGameObject<ParticleEmitter>()->LoadCSV("assets\\csv\\Explosion.csv")->SetEmitterLife(0.5)->
+	Game::AddGameObject<ParticleEmitter>()->LoadCSV("assets\\csv\\Explosion.csv")->SetEmitterLife(emitterLife)->
 		SetPosition({ enemy->GetPosition().x, enemy->GetPosition().y + 1.0f, enemy->GetPosition().z });
 
 	// シェイク
-	enemy->Shake(0.15f);
+	enemy->Shake(shake);
 	auto camera = Game::GetGameObject<Camera>();
-	camera->Shake(0.15f);
+	camera->Shake(shake);
 
 	// ヒットストップ
-	GameMode::SetHitStop(0.1);
+	GameManager::SetHitStop(hitStop);
 }

@@ -97,6 +97,12 @@
     <Filter Include="00_Engine\00-2_Graphics\Effects">
       <UniqueIdentifier>{acdab742-2005-44cb-bb82-f8cea4659a79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02_App\02-2_Objects\Title">
+      <UniqueIdentifier>{08a199b7-1d03-49e3-aad8-cd935d79ecae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02_App\02-2_Objects\Result">
+      <UniqueIdentifier>{b2262186-117d-4f67-9900-97e455ac065f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sources\00_Engine\00-1_Core\Application.cpp">
@@ -315,7 +321,7 @@
     <ClCompile Include="sources\01_Framework\01-2_Components\GridRenderer.cpp">
       <Filter>01_Framework\01-2_Components\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="sources\02_App\02-2_Objects\GameMode.cpp">
+    <ClCompile Include="sources\02_App\02-2_Objects\GameManager.cpp">
       <Filter>02_App\02-2_Objects\Game</Filter>
     </ClCompile>
     <ClCompile Include="sources\02_App\02-2_Objects\ScreenFilter.cpp">
@@ -326,6 +332,15 @@
     </ClCompile>
     <ClCompile Include="sources\02_App\02-2_Objects\GameObject.cpp">
       <Filter>02_App\02-2_Objects\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\02_App\02-2_Objects\BackGroundTexture.cpp">
+      <Filter>02_App\02-2_Objects\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\02_App\02-2_Objects\TitleManager.cpp">
+      <Filter>02_App\02-2_Objects\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="sources\02_App\02-2_Objects\ResultManager.cpp">
+      <Filter>02_App\02-2_Objects\Result</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -587,7 +602,7 @@
     <ClInclude Include="sources\01_Framework\01-2_Components\GridRenderer.h">
       <Filter>01_Framework\01-2_Components\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="sources\02_App\02-2_Objects\GameMode.h">
+    <ClInclude Include="sources\02_App\02-2_Objects\GameManager.h">
       <Filter>02_App\02-2_Objects\Game</Filter>
     </ClInclude>
     <ClInclude Include="sources\02_App\02-2_Objects\ScreenFilter.h">
@@ -595,6 +610,15 @@
     </ClInclude>
     <ClInclude Include="sources\01_Framework\01-2_Components\Timer.h">
       <Filter>01_Framework\01-2_Components</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\02_App\02-2_Objects\BackGroundTexture.h">
+      <Filter>02_App\02-2_Objects\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\02_App\02-2_Objects\TitleManager.h">
+      <Filter>02_App\02-2_Objects\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\02_App\02-2_Objects\ResultManager.h">
+      <Filter>02_App\02-2_Objects\Result</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

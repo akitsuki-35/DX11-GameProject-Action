@@ -1,30 +1,39 @@
 ﻿/*============================================================
-*	@file	 : Game.h
-*	@brief	 : ゲームシーン
+*	@file	 : BackGroundTexture.h
+*	@brief	 : 背景テクスチャ
 *
 * 　@author  : @akitsuki-35（https://github.com/akitsuki-35）
-* 　@date	 : 2026/03/28
-*	@updated : 2026/08/04
+* 　@date	 : 2026/09/10
+*	@updated : 2026/09/10
 *============================================================*/
 #pragma once
 
-#include "Scene.h"
-#include <list>
+#include "GameObject.h"
+#include "Vector2.h"
 
 /*------------------------------------------------------------
 	前方宣言
 ------------------------------------------------------------*/
-class GameObject;
+class UIRenderer;
 
 /*============================================================
-*	@class	: Game
-*	@brief	: ゲームシーン（Sceneを継承）
+*	@class	: BackGroundTexture
+*	@brief	: 背景テクスチャ
 *============================================================*/
-class Game : public Scene
+class BackGroundTexture : public GameObject
 {
+private:
+	UIRenderer* _mRenderer{ nullptr };
+
 public:
+	BackGroundTexture() = default;
+	virtual ~BackGroundTexture() = default;
+
 	void Initialize() override;
 	void Finalize() override;
 	void Update(double deltaTime) override;
 	void Draw() const override;
+
+	BackGroundTexture* LoadTexture(const char* fileName);
+	BackGroundTexture* SetSize(const Vector2& size);
 };

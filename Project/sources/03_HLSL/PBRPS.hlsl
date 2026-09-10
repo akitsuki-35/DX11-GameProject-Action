@@ -52,7 +52,9 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
     
     float3 lit = 0;
     
-    for (int i = 0; i < Parameter.z; i++)
+    int loop = (int) Parameter.z;
+    
+    for (int i = 0; i < loop; i++)
     {
         // ŒõŒ¹‚Ö‚ÌƒxƒNƒgƒ‹
         float4 lv = normalize(-Light.Direction);

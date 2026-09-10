@@ -36,3 +36,13 @@ bool System::Timer::Tick()
 
     return false;
 }
+
+void System::Timer::Refresh()
+{
+    // 累積時間を現在時間時間でリセット
+    QueryPerformanceCounter(&mCurrentTime);
+
+    mExecLastTime = mCurrentTime;
+
+    mAccumulator = 0.0;
+}

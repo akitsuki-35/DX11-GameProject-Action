@@ -8,6 +8,7 @@
 *============================================================*/
 #include "Camera.h"
 #include "Game.h"
+#include "GameManager.h"
 #include "Timer.h"
 #include "Input.h"
 #include "Player.h"
@@ -39,11 +40,13 @@ void Camera::Update(double deltaTime)
 
 	Vector3 rotation = mTransform.GetRotation();
 
-	if (Input::GetKeyPress(VK_LEFT)) {
-		mTransform.SetRotation({ rotation.x, rotation.y -= 3.0f * dt, rotation.z });
-	}
-	else if (Input::GetKeyPress(VK_RIGHT)) {
-		mTransform.SetRotation({ rotation.x, rotation.y += 3.0f * dt, rotation.z });
+	if (!GameManager::IsHitStop()) {
+		if (Input::GetKeyPress(VK_LEFT)) {
+			mTransform.SetRotation({ rotation.x, rotation.y -= 3.0f * dt, rotation.z });
+		}
+		else if (Input::GetKeyPress(VK_RIGHT)) {
+			mTransform.SetRotation({ rotation.x, rotation.y += 3.0f * dt, rotation.z });
+		}
 	}
 
 	rotation = mTransform.GetRotation();

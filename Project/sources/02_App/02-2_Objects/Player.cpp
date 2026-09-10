@@ -8,7 +8,7 @@
 *============================================================*/
 #include "Player.h"
 #include "Game.h"
-#include "GameMode.h"
+#include "GameManager.h"
 #include "Camera.h"
 #include "Bullet.h"
 #include "Input.h"
@@ -42,7 +42,7 @@ void Player::Finalize()
 
 void Player::Update(double deltaTime)
 {
-	if (GameMode::IsHitStop()) return;
+	if (GameManager::IsHitStop()) return;
 
 	// dtをfloatに変換
 	float dt = static_cast<float>(deltaTime);
@@ -115,7 +115,7 @@ void Player::Update(double deltaTime)
 
 	// 弾の発射
 	if (Input::GetKeyTrigger(VK_SPACE)) {
-		GameMode::AudioPlay("Shot");
+		GameManager::AudioPlay("Shot");
 		Bullet* bullet = Game::AddGameObject<Bullet>();
 		bullet->SetPosition(mTransform.GetPosition());
 		bullet->SetVelocity(mTransform.GetForward() * 100.0f);

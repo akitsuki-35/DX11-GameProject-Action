@@ -10,7 +10,7 @@
 #include "ParticleRenderer.h"
 #include "ParticleBox.h"
 #include "MeshTypes.h"
-#include "GameMode.h"
+#include "GameManager.h"
 #include "Timer.h"
 
 using namespace MeshType;
@@ -20,6 +20,7 @@ void ParticleEmitter::Initialize()
 {
 	ParticleRenderer* renderer = AddComponent<ParticleRenderer>(this)->SetEmitter(this);
 
+	// パーティクル用テクスチャ読み込み
 	renderer->LoadTexture("assets\\textures\\particle.png")->LoadShader("Unlit")
 		->SetBlendState(Blend::Add)->SetLayer(Layer::Alpha);
 
@@ -29,6 +30,7 @@ void ParticleEmitter::Initialize()
 		mParticles[i].mEnable = false;
 	}
 
+	// 基本的に外部からCSVファイルで指定するため、仮のタイプ初期化
 	_mType = std::make_unique<ParticleType::Box>(this);
 }
 
@@ -39,10 +41,11 @@ void ParticleEmitter::Finalize()
 
 void ParticleEmitter::Update(double deltaTime)
 {
-	if (GameMode::IsHitStop()) return;
+	if (GameManager::IsHitStop()) return;
 
 	_mType->Update(deltaTime);
 
+	// インターバル毎にパーティクル発射
 	mCurrentInterval -= deltaTime;
 
 	if (mCurrentInterval <= 0.0) {
@@ -50,6 +53,7 @@ void ParticleEmitter::Update(double deltaTime)
 		mCurrentInterval = mMaxInterval;
 	}
 
+	// ループが無効の場合は徐々に透明にする
 	if (!mLoop) {
 		alphaUpdate();
 
@@ -68,8 +72,9 @@ void ParticleEmitter::Draw() const
 
 ParticleEmitter* ParticleEmitter::LoadCSV(const char* filePath)
 {
-	auto newType = _mType->LoadCSV(filePath);
+	auto newType =_mType->LoadCSV(filePath);
 
+	// タイプを最後にセットする
 	if (newType) {
 		this->SetType(std::move(newType));
 	}
@@ -93,6 +98,10 @@ void ParticleEmitter::alphaUpdate()
 	// エミッタ寿命に応じて透明度を変更
 	auto renderer = GetComponent<ParticleRenderer>();
 	float alpha = _mEmitterLife->GetProgress();
+
+	// 値をクランプ
+	if (alpha > 1.0f) alpha = 1.0f;
+	if (alpha < 0.0f) alpha = 0.0f;
 
 	// メインカラー透明度更新
 	DirectX::XMFLOAT4 color = renderer->mColor;

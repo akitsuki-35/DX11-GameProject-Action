@@ -11,7 +11,6 @@
 #include "D3D11Config.h"
 #include "Renderer.h"
 #include "GameObject.h"
-#include "GameMode.h"
 #include "Camera.h"
 #include <array>
 #include <algorithm>
@@ -27,11 +26,14 @@ void Scene::Finalize()
 
 void Scene::Update(double deltaTime)
 {
+	// ポーズ中は処理しない
+	if (mPause) return;
+
 	for (const auto& obj : _mGameObjects) {
 		obj->Update(deltaTime);
 	}
 
-	if (!GameMode::IsHitStop()) {
+	if (!mHitStop) {
 		// ゲームオブジェクト削除
 		_mGameObjects.remove_if([](const auto& object) {
 			return object->Destroy();

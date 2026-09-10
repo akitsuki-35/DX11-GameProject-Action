@@ -8,7 +8,7 @@
 *============================================================*/
 #include "Enemy.h"
 #include "Timer.h"
-#include "GameMode.h"
+#include "GameManager.h"
 #include "ModelRenderer.h"
 
 void Enemy::Initialize()
@@ -40,7 +40,7 @@ void Enemy::Finalize()
 
 void Enemy::Update(double deltaTime)
 {
-	if (GameMode::IsHitStop()) return;
+	if (GameManager::IsHitStop()) return;
 
 	// シェイク処理
 	if (_mShakeTimer->GetEnable()) {

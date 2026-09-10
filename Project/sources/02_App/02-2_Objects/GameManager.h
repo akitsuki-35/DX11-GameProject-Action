@@ -1,5 +1,5 @@
 ﻿/*============================================================
-*	@file	 : GameMode.h
+*	@file	 : GameManager.h
 *	@brief	 : ゲーム制御用クラス
 *
 * 　@author  : @akitsuki-35（https://github.com/akitsuki-35）
@@ -16,29 +16,36 @@
 	前方宣言
 ------------------------------------------------------------*/
 class Timer;
+class ParticleEmitter;
 
 /*============================================================
-*	@class	: GameMode
+*	@class	: GameManager
 *	@brief	: ゲーム制御用クラス
 *============================================================*/
-class GameMode : public GameObject
+class GameManager : public GameObject
 {
 private:
 	// ゲーム内BGM・SE
 	static inline std::unordered_map<std::string, AudioPlayer*> _mGameAudios{};
 	
+	// エフェクト
+	ParticleEmitter* _mEffect{ nullptr };
+
 	// ヒットストップ
 	static inline Timer* _mHitStop{ nullptr };
 
+	// トランジション中フラグ
+	static inline bool mTransitionWait{ false };
+
 private:
 	// コピー禁止
-	GameMode(const GameMode&) = delete;
-	GameMode& operator=(const GameMode&) = delete;
-	GameMode(GameMode&&) = delete;
-	GameMode& operator=(GameMode&&) = delete;
+	GameManager(const GameManager&) = delete;
+	GameManager& operator=(const GameManager&) = delete;
+	GameManager(GameManager&&) = delete;
+	GameManager& operator=(GameManager&&) = delete;
 
 public:
-	GameMode() = default;
+	GameManager() = default;
 
 	void Initialize() override;
 	void Finalize() override;
@@ -47,6 +54,12 @@ public:
 
 	// オーディオ再生
 	static void AudioPlay(std::string key);
+
+	// ヒットストップ
 	static void SetHitStop(double time);
 	static bool IsHitStop();
+
+private:
+	// ステージエフェクト更新
+	void stageEffectUpdate();
 };

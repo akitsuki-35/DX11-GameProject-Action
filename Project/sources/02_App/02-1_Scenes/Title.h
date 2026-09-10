@@ -9,23 +9,6 @@
 #pragma once
 
 #include "Scene.h"
-#include "GameObject.h"
-
-/*------------------------------------------------------------
-	前方宣言
-------------------------------------------------------------*/
-class Texture;
-
-/*------------------------------------------------------------
-	タイトルシーンの状態
-------------------------------------------------------------*/
-enum TitleState
-{
-	TITLE_FADE_IN,
-	TITLE_KEYINPUT_WAIT,
-	TITLE_KEYINPUT_ACTION,
-	TITLE_FADE_OUT
-};
 
 /*============================================================
 *	@class	: Title
@@ -33,12 +16,6 @@ enum TitleState
 *============================================================*/
 class Title : public Scene
 {
-private:
-	TitleState mState{ TitleState::TITLE_FADE_IN };
-	double mAccumulatedTime{ 0.0 };
-	double mKeyInputTime{};
-	Texture* _mTexture{ nullptr };
-
 public:
 	void Initialize() override;
 	void Finalize() override;

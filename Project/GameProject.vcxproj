@@ -106,6 +106,7 @@
     <ClCompile Include="sources\02_App\02-2_Objects\GameManager.cpp" />
     <ClCompile Include="sources\02_App\02-2_Objects\GameObject.cpp" />
     <ClCompile Include="sources\02_App\02-2_Objects\Grid.cpp" />
+    <ClCompile Include="sources\02_App\02-2_Objects\HP.cpp" />
     <ClCompile Include="sources\02_App\02-2_Objects\ParticleEmitter..cpp" />
     <ClCompile Include="sources\02_App\02-2_Objects\Player.cpp" />
     <ClCompile Include="sources\02_App\02-2_Objects\ResultManager.cpp" />
@@ -279,6 +280,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="sources\02_App\02-2_Objects\Grid.h" />
+    <ClInclude Include="sources\02_App\02-2_Objects\HP.h" />
     <ClInclude Include="sources\02_App\02-2_Objects\ParticleEmitter.h" />
     <ClInclude Include="sources\02_App\02-2_Objects\Player.h" />
     <ClInclude Include="sources\02_App\02-2_Objects\ResultManager.h" />

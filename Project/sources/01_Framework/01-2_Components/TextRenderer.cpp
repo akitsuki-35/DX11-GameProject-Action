@@ -110,20 +110,21 @@ void TextRenderer::Draw() const
 		// 最大文字数到達時の自動改行
 		if (mCharsPerLine > 0 && charCount >= mCharsPerLine) {
 			currentX = startX;
-			currentY += _mFont->Size + _mFont->Size / 4;
+			currentY += mSize + mSize / 4;
 			charCount = 0;
 		}
 
 		// 改行記号による手動改行
 		if (codepoint == L'\n') {
 			currentX = startX;
-			currentY += _mFont->Size + _mFont->Size / 4;
+			currentY += mSize + mSize / 4;
 			charCount = 0;
 			continue;
 		}
 
 		// フォントリソース取得
-		Glyph* glyph = FontManager::getInstance().GetGlyph(_mFont, codepoint);
+		GlyphKey key = { _mFont, codepoint, mSize };
+		Glyph* glyph = FontManager::getInstance().GetGlyph(key);
 		if (!glyph) {
 			continue;
 		}
@@ -202,9 +203,9 @@ TextRenderer* TextRenderer::SetFont(const std::string& fontName)
 	return this;
 }
 
-TextRenderer* TextRenderer::SetTextSize(const float& size)
+TextRenderer* TextRenderer::SetTextSize(const int& size)
 {
-	_mFont->Size = size;
+	mSize = size;
 	return this;
 }
 

@@ -342,6 +342,9 @@
     <ClCompile Include="sources\02_App\02-2_Objects\ResultManager.cpp">
       <Filter>02_App\02-2_Objects\Result</Filter>
     </ClCompile>
+    <ClCompile Include="sources\02_App\02-2_Objects\HP.cpp">
+      <Filter>02_App\02-2_Objects\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sources\00_Engine\00-1_Core\Application.h">
@@ -619,6 +622,9 @@
     </ClInclude>
     <ClInclude Include="sources\02_App\02-2_Objects\ResultManager.h">
       <Filter>02_App\02-2_Objects\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="sources\02_App\02-2_Objects\HP.h">
+      <Filter>02_App\02-2_Objects\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

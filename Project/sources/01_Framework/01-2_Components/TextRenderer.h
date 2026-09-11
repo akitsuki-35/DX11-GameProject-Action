@@ -29,6 +29,7 @@ private:
 	Font* _mFont{}; // フォント
 	std::wstring mText{}; // 表示文字列
 	size_t mCharsPerLine{ 30 }; // 1行あたりの文字数
+	int mSize{ 32 }; // フォントサイズ
 	Vector2 mOffset{}; // トランスフォーム座標からのズレ
 
 	// ドロップシャドウ関連
@@ -62,7 +63,7 @@ public:
 	TextRenderer* SetFont(const std::string& fontName);
 
 	// テキストサイズ更新
-	TextRenderer* SetTextSize(const float& size);
+	TextRenderer* SetTextSize(const int& size);
 
 	// テキスト更新
 	TextRenderer* SetText(const std::string& text);

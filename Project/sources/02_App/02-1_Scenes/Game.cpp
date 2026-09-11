@@ -23,6 +23,7 @@
 
 #include "ScreenFilter.h"
 #include "Score.h"
+#include "HP.h"
 
 #include "DeviceManager.h"
 #include "D3D11Config.h"
@@ -50,6 +51,7 @@ void Game::Initialize()
 	// 2Dオブジェクト
 	AddGameObject<ScreenFilter>();
 	AddGameObject<Score>();
+	AddGameObject<HP>();
 
 	// マネージャー（制御用ダミーオブジェクト）
 	AddGameObject<GameManager>();

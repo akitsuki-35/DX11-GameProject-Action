@@ -25,11 +25,14 @@ class ParticleEmitter;
 class GameManager : public GameObject
 {
 private:
+	// 敵の数
+	static inline int mEnemyCount{ 0 };
+
 	// ゲーム内BGM・SE
 	static inline std::unordered_map<std::string, AudioPlayer*> _mGameAudios{};
 	
 	// エフェクト
-	ParticleEmitter* _mEffect{ nullptr };
+	static inline ParticleEmitter* _mEffect{ nullptr };
 
 	// ヒットストップ
 	static inline Timer* _mHitStop{ nullptr };
@@ -51,6 +54,11 @@ public:
 	void Finalize() override;
 	void Update(double deltaTime) override;
 	void Draw() const override;
+
+	// エネミーカウント関連
+	static int GetEnemyCount() { return mEnemyCount; }
+	static void AddEnemy() { mEnemyCount++; }
+	static void ReduceEnemy() { mEnemyCount--; }
 
 	// オーディオ再生
 	static void AudioPlay(std::string key);

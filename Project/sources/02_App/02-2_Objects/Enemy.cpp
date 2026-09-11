@@ -31,6 +31,9 @@ void Enemy::Initialize()
 
 	// シェイク用タイマーのセット
 	_mShakeTimer = AddComponent<Timer>(this);
+
+	// エネミーカウントを増加
+	GameManager::AddEnemy();
 }
 
 void Enemy::Finalize()

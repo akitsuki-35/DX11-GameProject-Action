@@ -117,6 +117,7 @@ void Bullet::hitEffect(Enemy* enemy)
 		shake = 0.25f;
 		hitStop = 0.5;
 		Game::GetGameObject<Score>()->AddScore(2000);
+		GameManager::ReduceEnemy();
 	}
 
 	// ヒットSE

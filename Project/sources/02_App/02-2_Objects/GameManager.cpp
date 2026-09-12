@@ -24,7 +24,8 @@ void GameManager::Initialize()
 	_mGameAudios.clear();
 
 	// BGM読み込み・再生
-	AudioPlayer* bgm = AddComponent<AudioPlayer>(this)->LoadAudio("assets\\audio\\Stage.ogg")->SetVolume(0.05f);
+	mBGMVolume = 0.05f;
+	AudioPlayer* bgm = AddComponent<AudioPlayer>(this)->LoadAudio("assets\\audio\\Stage.ogg")->SetVolume(mBGMVolume);
 	_mGameAudios.emplace("BGM", bgm);
 
 	_mGameAudios["BGM"]->Play();
@@ -57,7 +58,7 @@ void GameManager::Update(double deltaTime)
 	// シーン遷移処理
 	// 1.遷移条件を満たしたら遷移までのウェイトタイマーをセット
 	if (mEnemyCount == 0 && !mTransitionWait && !_mSceneChangeTimer->GetEnable()) {
-		_mSceneChangeTimer->Start(1.0);
+		_mSceneChangeTimer->Start(1.5);
 	}
 
 	// 2.ウェイトタイマーが時間切れならフェードアウト処理に移行
@@ -73,6 +74,12 @@ void GameManager::Update(double deltaTime)
 		mTransitionWait = false;
 		GameManager::SetSlow(false);
 		SceneManager::getInstance().SceneChange<Result>();
+	}
+
+	// BGMのフェードアウト処理
+	if (mTransitionWait) {
+		float volume = mBGMVolume * Transition::getInstance().GetTransitionProgress();
+		_mGameAudios["BGM"]->SetVolume(volume);
 	}
 
 	// ヒットストップが終了していたら、シーン側に終了を伝える

@@ -80,3 +80,8 @@ bool Transition::GetTransitionActive()
 {
 	return _mTimer->GetEnable();
 }
+
+float Transition::GetTransitionProgress()
+{
+	return _mTimer->GetProgress();
+}

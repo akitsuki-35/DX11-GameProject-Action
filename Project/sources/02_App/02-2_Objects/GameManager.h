@@ -31,6 +31,9 @@ private:
 	// ゲーム内BGM・SE
 	static inline std::unordered_map<std::string, AudioPlayer*> _mGameAudios{};
 	
+	// BGM音量
+	static inline float mBGMVolume{};
+	
 	// エフェクト
 	static inline ParticleEmitter* _mEffect{ nullptr };
 

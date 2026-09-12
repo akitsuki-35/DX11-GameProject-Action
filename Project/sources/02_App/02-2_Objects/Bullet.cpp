@@ -74,7 +74,7 @@ void Bullet::Update(double deltaTime)
 		float length = dir.Length();
 
 		// 距離がオブジェクト半径より小さい
-		if (length < 1.5f) {
+		if (length < 2.0f) {
 			// 命中した敵・弾・パーティクルエミッタを削除
 			enemy->Damage();
 			SetDestroy();
@@ -140,7 +140,7 @@ void Bullet::hitEffect(Enemy* enemy)
 
 	// 爆発エフェクト
 	Game::AddGameObject<ParticleEmitter>()->LoadCSV("assets\\csv\\Explosion.csv")->SetEmitterLife(emitterLife)->
-		SetPosition({ enemy->GetPosition().x, enemy->GetPosition().y + 1.0f, enemy->GetPosition().z });
+		SetPosition({ mTransform.GetPosition().x, mTransform.GetPosition().y + 1.0f, mTransform.GetPosition().z});
 
 	// シェイク
 	enemy->Shake(shake);

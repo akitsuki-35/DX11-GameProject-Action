@@ -77,5 +77,9 @@ public:
 	void Start(const double& fadeTime, const bool& isFadeIn,
 		const Color::Index& color = Color::Index::Black);
 
+	// トランジション中か判定
 	bool GetTransitionActive();
+
+	// トランジション進行度取得
+	float GetTransitionProgress();
 };

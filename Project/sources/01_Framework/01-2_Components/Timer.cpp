@@ -7,18 +7,25 @@
 *	@updated : 2026/09/08
 *============================================================*/
 #include "Timer.h"
+#include "SystemTimer.h"
 
 void Timer::Update(double deltaTime)
 {
-	// タイマーが有効な間は時間経過処理を行う
-	if (mEnable) {
-		mCurrentTime -= deltaTime;
+	// ゲーム内の速度に同期せず、システムタイマーのdtで更新
+	deltaTime = System::Timer::getInstance().GetDeltaTime();
 
-		// タイマーが0以下になったら一度タイマーを無効化する
+	// タイマーが0以下ならタイマーを無効化する
+	// タイムアップ判定のため時間超過→タイマー停止まで1フレーム猶予を設ける
+	if (mEnable) {
 		if (mCurrentTime <= 0.0) {
 			mCurrentTime = 0.0;
 			mEnable = false;
 		}
+	}
+
+	// タイマーが有効な間は時間経過処理を行う
+	if (mEnable) {
+		mCurrentTime -= deltaTime;
 	}
 }
 

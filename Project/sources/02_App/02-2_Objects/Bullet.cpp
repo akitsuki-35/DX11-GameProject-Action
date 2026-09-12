@@ -108,16 +108,31 @@ void Bullet::Draw() const
 
 void Bullet::hitEffect(Enemy* enemy)
 {
+	// エミッタ寿命
 	double emitterLife = 0.5;
+
+	// シェイクの強さ
 	float shake = 0.15f;
+
+	// ヒットストップの長さ
 	double hitStop = 0.1;
 
+	// 加算スコア
+	int score = 200;
+
+	// 敵死亡時は演出を強化
 	if (enemy->IsDestroy()) {
 		emitterLife = 1.0;
 		shake = 0.25f;
 		hitStop = 0.5;
-		Game::GetGameObject<Score>()->AddScore(2000);
 		GameManager::ReduceEnemy();
+		score += 2000;
+
+		// 最後の敵の場合はさらに演出を強化
+		if (GameManager::GetEnemyCount() == 0) {
+			emitterLife = 3.0;
+			GameManager::SetSlow(true);
+		}
 	}
 
 	// ヒットSE
@@ -134,4 +149,7 @@ void Bullet::hitEffect(Enemy* enemy)
 
 	// ヒットストップ
 	GameManager::SetHitStop(hitStop);
+
+	// スコア加算
+	Game::GetGameObject<Score>()->AddScore(score);
 }

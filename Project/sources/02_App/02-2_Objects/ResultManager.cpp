@@ -15,7 +15,7 @@
 void ResultManager::Initialize()
 {
 	// トランジション処理
-	Transition::getInstance().Start(0.5, true);
+	Transition::getInstance().Start(1.0, true);
 }
 
 void ResultManager::Finalize()

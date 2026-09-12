@@ -11,7 +11,7 @@
 #include "Transition.h"
 #include "Game.h"
 #include "Result.h"
-#include "Player.h"
+#include "Camera.h"
 #include "Timer.h"
 #include "ParticleEmitter.h"
 #include "Input.h"
@@ -36,7 +36,9 @@ void GameManager::Initialize()
 	AudioPlayer* hit = AddComponent<AudioPlayer>(this)->LoadAudio("assets\\audio\\Hit.mp3")->LoadAudio("assets\\audio\\Hit.mp3")->SetVolume(0.1f);
 	_mGameAudios.emplace("Hit", hit);
 
+	// タイマー
 	_mHitStop = AddComponent<Timer>(this);
+	_mSceneChangeTimer = AddComponent<Timer>(this);
 
 	// ステージ上のエフェクト
 	_mEffect = Game::AddGameObject<ParticleEmitter>()->LoadCSV("assets\\csv\\Effect.csv");
@@ -53,13 +55,23 @@ void GameManager::Update(double deltaTime)
 	stageEffectUpdate();
 
 	// シーン遷移処理
-	if (!Transition::getInstance().GetTransitionActive() && Input::GetKeyTrigger(VK_RETURN)) {
-		Transition::getInstance().Start(1.0, false);
-		mTransitionWait = true;
+	// 1.遷移条件を満たしたら遷移までのウェイトタイマーをセット
+	if (mEnemyCount == 0 && !mTransitionWait && !_mSceneChangeTimer->GetEnable()) {
+		_mSceneChangeTimer->Start(1.0);
 	}
 
+	// 2.ウェイトタイマーが時間切れならフェードアウト処理に移行
+	if (_mSceneChangeTimer->GetEnable()) {
+		if (_mSceneChangeTimer->IsTimeUp()) {
+			Transition::getInstance().Start(2.5, false);
+			mTransitionWait = true;
+		}
+	}
+
+	// 3.フェードアウトが完了したらシーン遷移
 	if (mTransitionWait && !Transition::getInstance().GetTransitionActive()) {
 		mTransitionWait = false;
+		GameManager::SetSlow(false);
 		SceneManager::getInstance().SceneChange<Result>();
 	}
 
@@ -99,14 +111,25 @@ bool GameManager::IsHitStop()
 	return _mHitStop->GetEnable();
 }
 
+void GameManager::SetSlow(bool isSlow)
+{
+	// シーン側にスローモーション状態を伝える
+	Game::SetSlow(isSlow);
+}
+
+void GameManager::SceneChangeWait(double time)
+{
+	_mSceneChangeTimer->Start(time);
+}
+
 void GameManager::stageEffectUpdate()
 {
-	// プレイヤー座標取得
-	auto player = Game::GetGameObject<Player>();
-	Vector3 position = player->GetPosition();
+	// カメラ座標取得
+	auto camera = Game::GetGameObject<Camera>();
+	Vector3 position = camera->GetPosition();
 
 	// forwardを反転して後方を取得
-	Vector3 back = -player->GetTransform().GetForward();
+	Vector3 back = -camera->GetTransform().GetForward();
 	position += back * 30.0f;
 	_mEffect->SetPosition(position);
 

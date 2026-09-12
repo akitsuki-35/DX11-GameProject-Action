@@ -26,7 +26,7 @@ bool System::Timer::Tick()
 
     mExecLastTime = mCurrentTime;
 
-    // 累積時間購入
+    // 累積時間更新
     mAccumulator += dt;
 
     if (mAccumulator >= mFps) {

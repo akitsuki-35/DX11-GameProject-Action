@@ -24,7 +24,8 @@ class HP : public GameObject
 {
 private:
 	int mHP{};
-	TextRenderer* _mRenderer{ nullptr };
+	TextRenderer* _mTextRenderer{ nullptr };
+	TextRenderer* _mHPRenderer{ nullptr };
 
 public:
 	HP() = default;

@@ -40,6 +40,9 @@ private:
 	// トランジション中フラグ
 	static inline bool mTransitionWait{ false };
 
+	// 敵全滅～シーン遷移までのタイマー
+	static inline Timer* _mSceneChangeTimer{ nullptr };
+
 private:
 	// コピー禁止
 	GameManager(const GameManager&) = delete;
@@ -66,6 +69,11 @@ public:
 	// ヒットストップ
 	static void SetHitStop(double time);
 	static bool IsHitStop();
+
+	// スローモーション
+	static void SetSlow(bool isSlow);
+
+	static void SceneChangeWait(double time);
 
 private:
 	// ステージエフェクト更新

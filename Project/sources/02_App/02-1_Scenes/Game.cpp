@@ -64,6 +64,10 @@ void Game::Finalize()
 
 void Game::Update(double deltaTime)
 {
+	if (mSlow) {
+		deltaTime *= 0.5;
+	}
+
 	Scene::Update(deltaTime);
 }
 

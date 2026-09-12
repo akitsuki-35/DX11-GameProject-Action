@@ -54,7 +54,7 @@ public:
 	bool GetEnable() const { return mEnable; }
 
 	// タイムアップしているか取得
-	bool IsTimeUp() const { return mCurrentTime <= 0.0; }
+	bool IsTimeUp() const { return mEnable && mCurrentTime <= 0.0; }
 
 	// 現在のタイマー進行度取得
 	float GetProgress() const { return static_cast<float>(mCurrentTime / mMaxTime); }

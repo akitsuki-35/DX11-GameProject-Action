@@ -22,9 +22,15 @@ class GameObject;
 *============================================================*/
 class Game : public Scene
 {
+private:
+	// スローモーション中フラグ
+	static inline bool mSlow{ false };
+
 public:
 	void Initialize() override;
 	void Finalize() override;
 	void Update(double deltaTime) override;
 	void Draw() const override;
+
+	static void SetSlow(const bool& isSlow) { mSlow = isSlow; }
 };

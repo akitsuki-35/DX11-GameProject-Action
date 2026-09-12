@@ -24,7 +24,8 @@ class Score : public GameObject
 {
 private:
 	int mScore{};
-	TextRenderer* _mRenderer{ nullptr };
+	TextRenderer* _mTextRenderer{ nullptr };
+	TextRenderer* _mScoreRenderer{ nullptr };
 
 public:
 	Score() = default;

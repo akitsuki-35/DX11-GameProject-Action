@@ -25,6 +25,8 @@ private:
 	Vector3 mVelocity{ 0.0f, 0.0f, 0.0f };
 	Vector3 mAccel{ 0.0f, 0.0f, 0.0f };
 
+	int mHP{ 100 };
+
 public:
 	Player() = default;
 
@@ -32,4 +34,6 @@ public:
 	void Finalize() override;
 	void Update(double deltaTime) override;
 	void Draw() const override;
+
+	int GetHP() const { return mHP; }
 };

@@ -27,9 +27,37 @@ struct Glyph
 {
 	std::shared_ptr<Texture> Texture{ nullptr };
 
-    int BearingX = 0;   // 左側の余白
-    int BearingY = 0;   // 上側の余白
-    int Advance = 0;   // 次の文字までの移動量
+	int BearingX{ 0 };   // 左側の余白
+	int BearingY{ 0 };   // 上側の余白
+	int Advance{ 0 };   // 次の文字までの移動量
+};
+
+// 探索用キー
+struct GlyphKey
+{
+	Font* Font{};
+	uint32_t Codepoint{};
+	int Size{};
+
+	bool operator==(const GlyphKey& o) const {
+		return Font == o.Font && Codepoint == o.Codepoint && Size == o.Size;
+	}
+};
+
+// ハッシュ化
+template <>
+struct std::hash<GlyphKey> {
+	size_t operator()(const GlyphKey& k) const {
+
+		size_t h1 = std::hash<const Font*>()(k.Font);
+		size_t h2 = std::hash<uint32_t>()(k.Codepoint);
+		size_t h3 = std::hash<int>()(k.Size);
+
+		size_t seed = h1;
+		seed ^= h2 + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+		seed ^= h3 + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+		return seed;
+	}
 };
 
 /*============================================================
@@ -67,7 +95,7 @@ private:
 	std::unordered_map<std::string, std::unique_ptr<Font>> mFonts{};
 
 	// Glyphキャッシュ
-	std::unordered_map<Font*, std::unordered_map<uint32_t, std::unique_ptr<Glyph>>> mAtlas{};
+	std::unordered_map<GlyphKey, std::unique_ptr<Glyph>> mAtlas{};
 
 	// DirectWriteファクトリ
 	Microsoft::WRL::ComPtr<IDWriteFactory> _mFactory{ nullptr };
@@ -80,7 +108,7 @@ public:
 	Font* GetFont(const std::string& keyName);
 	
 	// 文字テクスチャ取得
-	Glyph* GetGlyph(Font* font, uint32_t codePoint);
+	Glyph* GetGlyph(const GlyphKey& key);
 
 	// フォント登録
 	Font* Register(const std::string& keyName, const char* fontPath);
@@ -90,7 +118,7 @@ public:
 
 private:
 	// 文字テクスチャ生成
-	bool generateGlyph(Glyph& glyph, Font* font, uint32_t codepPoint);
+	bool generateGlyph(Glyph& glyph, const GlyphKey& key);
 };
 
 namespace FontSet {

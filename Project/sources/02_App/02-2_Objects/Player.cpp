@@ -8,20 +8,21 @@
 *============================================================*/
 #include "Player.h"
 #include "Game.h"
-#include "GameMode.h"
+#include "GameManager.h"
 #include "Camera.h"
 #include "Bullet.h"
 #include "Input.h"
 #include "ModelRenderer.h"
+#include "Timer.h"
 
 void Player::Initialize()
 {
 	// トランスフォームの初期化
 	mTransform = Transform(
-		{ 0.0f, 0.0f, -50.0f },
-		{ 0.0f, 0.0f,  0.0f },
-		{ 1.0f, 1.0f,  1.0f }
-	);		
+		{ 0.0f, 0.0f, 0.0f },
+		{ 0.0f, 0.0f, 0.0f },
+		{ 1.0f, 1.0f, 1.0f }
+	);
 
 	// 移動量と加速度の初期化
 	mVelocity = { 0.0f, 0.0f, 0.0f };
@@ -29,7 +30,12 @@ void Player::Initialize()
 
 	// モデル・シェーダー読み込み
 	AddComponent<ModelRenderer>(this)->LoadModel("assets\\models\\Player.fbx")->
-		LoadShader("Directional");
+		LoadTexture("Roughness.jpg", ModelRenderer::TextureType::Roughness)->
+		LoadTexture("Metalness.jpg", ModelRenderer::TextureType::Metalness)->
+		SetParameter({ 0.2f, 0.8f, 1.0f, 0.0f })->
+		LoadShader("PBR");
+
+	_mShotInterval = AddComponent<Timer>(this);
 }
 
 void Player::Finalize()
@@ -39,6 +45,8 @@ void Player::Finalize()
 
 void Player::Update(double deltaTime)
 {
+	if (GameManager::IsHitStop()) return;
+
 	// dtをfloatに変換
 	float dt = static_cast<float>(deltaTime);
 
@@ -77,6 +85,9 @@ void Player::Update(double deltaTime)
 	if (Input::GetKeyPress(VK_DOWN)) {
 		mVelocity -= forward * 30.0f * dt;
 	}
+	else if (Input::GetKeyPress('B')) {
+
+	}
 
 	// カメラ方向にプレイヤーを向ける
 	float yaw = atan2f(mVelocity.x, mVelocity.z);
@@ -89,27 +100,22 @@ void Player::Update(double deltaTime)
 	// 移動処理
 	position += mVelocity * dt;
 
-	// 座標のクランプ（グリッドの外には出られないようにする）
-	if (position.x < -50.0f) {
-		position.x = -50.0f;
-	}
-	else if (position.x > 50.0f) {
-		position.x = 50.0f;
-	}
+	// 敵との衝突処理
+	GameManager::EnemyCollision(*this, position, dt);
 
-	if (position.z < -50.0f) {
-		position.z = -50.0f;
-	}
-	else if (position.z > 50.0f) {
-		position.z = 50.0f;
-	}
+	// 座標クランプ
+	GameManager::ClampPosition(position);
 
 	// 弾の発射
-	if (Input::GetKeyTrigger(VK_SPACE)) {
-		GameMode::AudioPlay("Shot");
+	if(!_mShotInterval->GetEnable() && !GameManager::IsTransition())
+	if (Input::GetKeyPress(VK_SPACE)) {
+		GameManager::AudioPlay("Shot");
 		Bullet* bullet = Game::AddGameObject<Bullet>();
 		bullet->SetPosition(mTransform.GetPosition());
-		bullet->SetVelocity(mTransform.GetForward() * 100.0f);
+		bullet->SetVelocity(forward * 100.0f);
+
+		// インターバルのセット
+		_mShotInterval->Start(0.2);
 	}
 
 	// 座標と回転をセット

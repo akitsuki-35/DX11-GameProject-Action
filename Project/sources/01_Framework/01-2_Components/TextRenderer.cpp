@@ -56,8 +56,8 @@ void TextRenderer::Draw() const
 	Transform transform = _mOwner->GetTransform();
 
 	// スタート位置と現在位置を初期化
-	const float startX = transform.GetPosition().x;
-	const float startY = transform.GetPosition().y;
+	const float startX = transform.GetPosition().x + mOffset.x;
+	const float startY = transform.GetPosition().y + mOffset.y;
 
 	float currentX = startX;
 	float currentY = startY;
@@ -110,20 +110,21 @@ void TextRenderer::Draw() const
 		// 最大文字数到達時の自動改行
 		if (mCharsPerLine > 0 && charCount >= mCharsPerLine) {
 			currentX = startX;
-			currentY += _mFont->Size + _mFont->Size / 4;
+			currentY += mSize + mSize / 4;
 			charCount = 0;
 		}
 
 		// 改行記号による手動改行
 		if (codepoint == L'\n') {
 			currentX = startX;
-			currentY += _mFont->Size + _mFont->Size / 4;
+			currentY += mSize + mSize / 4;
 			charCount = 0;
 			continue;
 		}
 
 		// フォントリソース取得
-		Glyph* glyph = FontManager::getInstance().GetGlyph(_mFont, codepoint);
+		GlyphKey key = { _mFont, codepoint, mSize };
+		Glyph* glyph = FontManager::getInstance().GetGlyph(key);
 		if (!glyph) {
 			continue;
 		}
@@ -150,6 +151,9 @@ void TextRenderer::Draw() const
 		material.Diffuse = textColor;
 		material.TextureEnable = true;
 		D3D11::BufferManager::getInstance().SetMaterial(material);
+
+		// パラメータ設定
+		D3D11::BufferManager::getInstance().SetParameter(mParameter);
 
 		mCanvas.Bind();
 
@@ -199,9 +203,9 @@ TextRenderer* TextRenderer::SetFont(const std::string& fontName)
 	return this;
 }
 
-TextRenderer* TextRenderer::SetTextSize(const float& size)
+TextRenderer* TextRenderer::SetTextSize(const int& size)
 {
-	_mFont->Size = size;
+	mSize = size;
 	return this;
 }
 
@@ -214,6 +218,12 @@ TextRenderer* TextRenderer::SetText(const std::string& text)
 TextRenderer* TextRenderer::SetCharsPerLine(const size_t& charsPerLine)
 {
 	mCharsPerLine = charsPerLine;
+	return this;
+}
+
+TextRenderer* TextRenderer::SetOffset(const Vector2& offset)
+{
+	mOffset = offset;
 	return this;
 }
 

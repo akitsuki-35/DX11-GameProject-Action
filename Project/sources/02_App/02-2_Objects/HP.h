@@ -1,35 +1,39 @@
 ﻿/*============================================================
-*	@file	 : GameMode.h
-*	@brief	 : ゲーム制御用クラス
+*	@file	 : HP.h
+*	@brief	 : スコア表示
 *
 * 　@author  : @akitsuki-35（https://github.com/akitsuki-35）
-* 　@date	 : 2026/09/07
-*	@updated : 2026/09/07
+* 　@date	 : 2026/06/30
+*	@updated : 2026/08/12
 *============================================================*/
 #pragma once
 
 #include "GameObject.h"
-#include "AudioPlayer.h"
-#include <unordered_map>
+
+/*------------------------------------------------------------
+	前方宣言
+------------------------------------------------------------*/
+class Timer;
+class TextRenderer;
 
 /*============================================================
-*	@class	: GameMode
-*	@brief	: ゲーム制御用クラス
+*	@class	: HP
+*	@brief	: スコア
 *============================================================*/
-class GameMode : public GameObject
+class HP : public GameObject
 {
 private:
-	// ゲーム内BGM・SE
-	static inline std::unordered_map<std::string, AudioPlayer*> _mGameAudios{};
+	int mHP{};
+	TextRenderer* _mTextRenderer{ nullptr };
+	TextRenderer* _mHPRenderer{ nullptr };
 
 public:
-	GameMode() = default;
+	HP() = default;
 
 	void Initialize() override;
 	void Finalize() override;
 	void Update(double deltaTime) override;
 	void Draw() const override;
 
-	// オーディオ再生
-	static void AudioPlay(std::string key);
+	void AddHP(int add) { mHP += add; }
 };

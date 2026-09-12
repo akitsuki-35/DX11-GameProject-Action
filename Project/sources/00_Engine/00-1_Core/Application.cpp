@@ -22,8 +22,9 @@ int Application::Run() const
 		else{
 			while (System::Timer::getInstance().Tick()) {
 				SceneManager::getInstance().Update(System::Timer::getInstance().GetDeltaTime());
-				SceneManager::getInstance().Draw();
 			}
+
+			SceneManager::getInstance().Draw();
 		}
 	}
 

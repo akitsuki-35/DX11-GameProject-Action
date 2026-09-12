@@ -7,49 +7,44 @@
 *	@updated : 2026/08/04
 *============================================================*/
 #include "Game.h"
-#include "SceneManager.h"
-#include "Input.h"
+
+// マネージャー
+#include "GameManager.h"
+
+// オブジェクト群
 #include "Camera.h"
-#include "Transition.h"
-
-#include "GameMode.h"
-
 #include "Grid.h"
 #include "Player.h"
-#include "Enemy.h"
 #include "Bullet.h"
 #include "Sky.h"
-
-#include "ParticleEmitter.h"
-#include "Result.h"
-
+#include "ScreenFilter.h"
 #include "Score.h"
-
-#include "DeviceManager.h"
-#include "D3D11Config.h"
+#include "HP.h"
 
 void Game::Initialize()
 {
-	Transition::getInstance().Start(1.0, true);
-
+	// 配列を初期化
 	_mGameObjects.clear();
 
+	// カメラ
 	AddGameObject<Camera>();
 
-	AddGameObject<GameMode>();
-
+	// スカイドーム
 	AddGameObject<Sky>();
 
+	// グリッド（フィールド）
 	AddGameObject<Grid>()->SetPosition({ 0.0f, 0.0f, 0.0f });
 
+	// オブジェクト
 	AddGameObject<Player>();
-	AddGameObject<Enemy>()->SetPosition({ 5.0f, 0.0f, 5.0f });
-	AddGameObject<Enemy>()->SetPosition({ -5.0f, 0.0f, 5.0f });
-	AddGameObject<Enemy>()->SetPosition({ 0.0f, 0.0f, 5.0f });
 
-	_mEffect = AddGameObject<ParticleEmitter>()->LoadCSV("assets\\csv\\Effect.csv");
-
+	// 2Dオブジェクト
+	AddGameObject<ScreenFilter>();
 	AddGameObject<Score>();
+	AddGameObject<HP>();
+
+	// マネージャー（制御用ダミーオブジェクト）
+	AddGameObject<GameManager>();
 }
 
 void Game::Finalize()
@@ -59,21 +54,11 @@ void Game::Finalize()
 
 void Game::Update(double deltaTime)
 {
-	Scene::Update(deltaTime);
-
-	auto player = GetGameObject<Player>();
-
-	Vector3 position = player->GetPosition();
-	Vector3 back = -player->GetTransform().GetForward();
-	position += back * 30.0f;
-	_mEffect->SetPosition(position);
-	
-	Vector3 velocity = _mEffect->GetDesc().Velocity;
-	_mEffect->SetAccel(-back * 100.0f);
-
-	if (Input::GetKeyTrigger(VK_RETURN)) {
-		SceneManager::getInstance().SceneChange<Result>();
+	if (mSlow) {
+		deltaTime *= 0.5;
 	}
+
+	Scene::Update(deltaTime);
 }
 
 void Game::Draw() const

@@ -145,7 +145,7 @@ void AudioPlayer::Stop()
 	}
 }
 
-void AudioPlayer::SetVolume(float Volume)
+AudioPlayer* AudioPlayer::SetVolume(float Volume)
 {
 	// 0.0f～1.0f間で補間
 	mVolume = std::clamp(Volume, 0.0f, 1.0f);
@@ -153,4 +153,6 @@ void AudioPlayer::SetVolume(float Volume)
 	if (mSourceVoice) {
 		mSourceVoice->SetVolume(mVolume);
 	}
+
+	return this;
 }

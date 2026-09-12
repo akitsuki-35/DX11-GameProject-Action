@@ -26,7 +26,7 @@ bool System::Timer::Tick()
 
     mExecLastTime = mCurrentTime;
 
-    // 累積時間購入
+    // 累積時間更新
     mAccumulator += dt;
 
     if (mAccumulator >= mFps) {
@@ -35,4 +35,14 @@ bool System::Timer::Tick()
     }
 
     return false;
+}
+
+void System::Timer::Refresh()
+{
+    // 累積時間を現在時間時間でリセット
+    QueryPerformanceCounter(&mCurrentTime);
+
+    mExecLastTime = mCurrentTime;
+
+    mAccumulator = 0.0;
 }

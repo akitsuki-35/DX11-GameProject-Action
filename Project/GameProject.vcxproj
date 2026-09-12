@@ -68,6 +68,7 @@
     <ClCompile Include="sources\01_Framework\01-2_Components\Renderer.cpp" />
     <ClCompile Include="sources\01_Framework\01-2_Components\SpriteRenderer.cpp" />
     <ClCompile Include="sources\01_Framework\01-2_Components\TextRenderer.cpp" />
+    <ClCompile Include="sources\01_Framework\01-2_Components\Timer.cpp" />
     <ClCompile Include="sources\01_Framework\01-2_Components\UIRenderer.cpp" />
     <ClCompile Include="sources\02_App\02-1_Scenes\Game.cpp" />
     <ClCompile Include="sources\02_App\02-1_Scenes\Result.cpp">
@@ -102,22 +103,28 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="sources\02_App\02-2_Objects\GameMode.cpp" />
+    <ClCompile Include="sources\02_App\02-2_Objects\GameManager.cpp" />
+    <ClCompile Include="sources\02_App\02-2_Objects\GameObject.cpp" />
     <ClCompile Include="sources\02_App\02-2_Objects\Grid.cpp" />
+    <ClCompile Include="sources\02_App\02-2_Objects\HP.cpp" />
     <ClCompile Include="sources\02_App\02-2_Objects\ParticleEmitter..cpp" />
     <ClCompile Include="sources\02_App\02-2_Objects\Player.cpp" />
+    <ClCompile Include="sources\02_App\02-2_Objects\ResultManager.cpp" />
     <ClCompile Include="sources\02_App\02-2_Objects\Score.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="sources\02_App\02-2_Objects\ScreenFilter.cpp" />
     <ClCompile Include="sources\02_App\02-2_Objects\Sky.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="sources\02_App\02-2_Objects\BackGroundTexture.cpp" />
+    <ClCompile Include="sources\02_App\02-2_Objects\TitleManager.cpp" />
     <ClCompile Include="sources\04_External\include\ImGui\imgui.cpp" />
     <ClCompile Include="sources\04_External\include\ImGui\imgui_demo.cpp" />
     <ClCompile Include="sources\04_External\include\ImGui\imgui_draw.cpp" />
@@ -229,6 +236,7 @@
     <ClInclude Include="sources\01_Framework\01-2_Components\ModelRenderer.h" />
     <ClInclude Include="sources\01_Framework\01-2_Components\SpriteRenderer.h" />
     <ClInclude Include="sources\01_Framework\01-2_Components\TextRenderer.h" />
+    <ClInclude Include="sources\01_Framework\01-2_Components\Timer.h" />
     <ClInclude Include="sources\01_Framework\01-2_Components\UIRenderer.h" />
     <ClInclude Include="sources\02_App\02-1_Scenes\Game.h" />
     <ClInclude Include="sources\02_App\02-1_Scenes\Result.h">
@@ -245,6 +253,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="sources\02_App\02-2_Objects\BackGroundTexture.h" />
     <ClInclude Include="sources\02_App\02-2_Objects\Bullet.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -263,7 +272,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="sources\02_App\02-2_Objects\GameMode.h" />
+    <ClInclude Include="sources\02_App\02-2_Objects\GameManager.h" />
     <ClInclude Include="sources\02_App\02-2_Objects\GameObject.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -271,20 +280,24 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="sources\02_App\02-2_Objects\Grid.h" />
+    <ClInclude Include="sources\02_App\02-2_Objects\HP.h" />
     <ClInclude Include="sources\02_App\02-2_Objects\ParticleEmitter.h" />
     <ClInclude Include="sources\02_App\02-2_Objects\Player.h" />
+    <ClInclude Include="sources\02_App\02-2_Objects\ResultManager.h" />
     <ClInclude Include="sources\02_App\02-2_Objects\Score.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="sources\02_App\02-2_Objects\ScreenFilter.h" />
     <ClInclude Include="sources\02_App\02-2_Objects\Sky.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="sources\02_App\02-2_Objects\TitleManager.h" />
     <ClInclude Include="sources\04_External\include\ImGui\imconfig.h" />
     <ClInclude Include="sources\04_External\include\ImGui\imgui.h" />
     <ClInclude Include="sources\04_External\include\ImGui\imgui_impl_dx11.h" />
@@ -338,8 +351,12 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="sources\03_HLSL\Common.hlsl">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)assets\shaders\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)assets\shaders\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="sources\03_HLSL\CookTranceSub.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)assets\shaders\%(Filename).cso</ObjectFileOutput>
@@ -369,6 +386,24 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)assets\shaders\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)assets\shaders\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="sources\03_HLSL\PBRPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)assets\shaders\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)assets\shaders\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="sources\03_HLSL\PhongPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)assets\shaders\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)assets\shaders\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="sources\03_HLSL\PhongVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)assets\shaders\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)assets\shaders\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <FxCompile Include="sources\03_HLSL\UISpriteVS.hlsl">

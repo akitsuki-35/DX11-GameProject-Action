@@ -15,7 +15,6 @@
 	前方宣言
 ------------------------------------------------------------*/
 class GameObject;
-class ParticleEmitter;
 
 /*============================================================
 *	@class	: Game
@@ -24,11 +23,14 @@ class ParticleEmitter;
 class Game : public Scene
 {
 private:
-	ParticleEmitter* _mEffect{ nullptr };
+	// スローモーション中フラグ
+	static inline bool mSlow{ false };
 
 public:
 	void Initialize() override;
 	void Finalize() override;
 	void Update(double deltaTime) override;
 	void Draw() const override;
+
+	static void SetSlow(const bool& isSlow) { mSlow = isSlow; }
 };

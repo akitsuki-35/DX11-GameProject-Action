@@ -50,6 +50,9 @@ public:
 	}
 
 	void Draw() const override;
+
+	// トランスフォームを直接指定して描画
+	// トランジション等ゲームオブジェクト外からの呼び出しで使用する
 	void Draw(const Transform& transform);
 
 private:

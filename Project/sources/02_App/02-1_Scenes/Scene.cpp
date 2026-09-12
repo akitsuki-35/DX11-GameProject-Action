@@ -26,14 +26,19 @@ void Scene::Finalize()
 
 void Scene::Update(double deltaTime)
 {
+	// ポーズ中は処理しない
+	if (mPause) return;
+
 	for (const auto& obj : _mGameObjects) {
 		obj->Update(deltaTime);
 	}
 
-	// ゲームオブジェクト削除
-	_mGameObjects.remove_if([](const auto& object) {
-		return object->Destroy();
-		});	
+	if (!mHitStop) {
+		// ゲームオブジェクト削除
+		_mGameObjects.remove_if([](const auto& object) {
+			return object->Destroy();
+			});
+	}
 }
 
 void Scene::Draw() const

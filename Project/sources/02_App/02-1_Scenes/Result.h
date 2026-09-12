@@ -9,12 +9,6 @@
 #pragma once
 
 #include "Scene.h"
-#include "GameObject.h"
-
-/*------------------------------------------------------------
-	前方宣言
-------------------------------------------------------------*/
-class Texture;
 
 /*============================================================
 *	@class	: Result
@@ -22,9 +16,6 @@ class Texture;
 *============================================================*/
 class Result : public Scene
 {
-private:
-	Texture* _mTexture{ nullptr };
-
 public:
 	void Initialize() override;
 	void Finalize() override;

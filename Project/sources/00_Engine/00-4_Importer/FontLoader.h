@@ -16,7 +16,6 @@
 struct Font {
 	Microsoft::WRL::ComPtr<IDWriteFontFace> Face{ nullptr };
 	DWRITE_FONT_METRICS Metrics{};
-	float Size{ 32.0f };
 };
 
 /*============================================================

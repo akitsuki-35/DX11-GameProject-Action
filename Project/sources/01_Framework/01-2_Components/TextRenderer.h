@@ -9,6 +9,7 @@
 #pragma once
 
 #include "UIRenderer.h"
+#include "Vector2.h"
 
 /*------------------------------------------------------------
 	前方宣言
@@ -28,6 +29,8 @@ private:
 	Font* _mFont{}; // フォント
 	std::wstring mText{}; // 表示文字列
 	size_t mCharsPerLine{ 30 }; // 1行あたりの文字数
+	int mSize{ 32 }; // フォントサイズ
+	Vector2 mOffset{}; // トランスフォーム座標からのズレ
 
 	// ドロップシャドウ関連
 	DirectX::XMFLOAT4 mShadowColor{ 0.0f, 0.0f, 0.0f, 1.0f }; // ドロップシャドウカラー
@@ -52,7 +55,6 @@ private:
 	void shadowDraw(const Glyph* glyph, const Transform& transform) const;
 
 	DirectX::XMMATRIX getWorldMatrix() = delete;
-	//Renderer* SetColor(const DirectX::XMFLOAT4 color) = delete;
 
 public:
 	UIRenderer* LoadTexture(const char* fileName) = delete;
@@ -61,13 +63,16 @@ public:
 	TextRenderer* SetFont(const std::string& fontName);
 
 	// テキストサイズ更新
-	TextRenderer* SetTextSize(const float& size);
+	TextRenderer* SetTextSize(const int& size);
 
 	// テキスト更新
 	TextRenderer* SetText(const std::string& text);
 
 	// 1行あたりの文字数更新
 	TextRenderer* SetCharsPerLine(const size_t& charsPerLine);
+
+	// オフセット更新
+	TextRenderer* SetOffset(const Vector2& offset);
 
 	// ドロップシャドウカラー変更
 	TextRenderer* SetShadowColor(const DirectX::XMFLOAT4 color);

@@ -71,6 +71,9 @@ protected:
 	// カラー
 	DirectX::XMFLOAT4 mColor{ 1.0f, 1.0f, 1.0f, 1.0f };
 
+	// パラメータ
+	DirectX::XMFLOAT4 mParameter{ 0.0f, 0.0f, 0.0f, 0.0f };
+
 	// ブレンドステート
 	Blend mBlendState{};
 
@@ -116,6 +119,7 @@ public:
 
 	// セッター
 	Renderer* SetColor(const DirectX::XMFLOAT4 color);
+	Renderer* SetParameter(const DirectX::XMFLOAT4 parameter);
 
 private:
 	// ワールド行列取得

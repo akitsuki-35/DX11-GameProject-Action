@@ -10,6 +10,12 @@
 
 #include "GameObject.h"
 
+/*------------------------------------------------------------
+	前方宣言
+------------------------------------------------------------*/
+class Timer;
+class TextRenderer;
+
 /*============================================================
 *	@class	: Score
 *	@brief	: スコア
@@ -17,8 +23,9 @@
 class Score : public GameObject
 {
 private:
-	int mValue{};
-	static constexpr int DIGIT{ 2 };
+	int mScore{};
+	TextRenderer* _mTextRenderer{ nullptr };
+	TextRenderer* _mScoreRenderer{ nullptr };
 
 public:
 	Score() = default;
@@ -28,5 +35,5 @@ public:
 	void Update(double deltaTime) override;
 	void Draw() const override;
 
-	void Add(int value) { mValue += value; }
+	void AddScore(int add) { mScore += add; }
 };

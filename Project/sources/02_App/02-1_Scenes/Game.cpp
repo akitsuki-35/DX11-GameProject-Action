@@ -7,26 +7,19 @@
 *	@updated : 2026/08/04
 *============================================================*/
 #include "Game.h"
-#include "SceneManager.h"
-#include "Camera.h"
 
+// マネージャー
 #include "GameManager.h"
 
+// オブジェクト群
+#include "Camera.h"
 #include "Grid.h"
 #include "Player.h"
-#include "Enemy.h"
 #include "Bullet.h"
 #include "Sky.h"
-
-#include "ParticleEmitter.h"
-#include "Result.h"
-
 #include "ScreenFilter.h"
 #include "Score.h"
 #include "HP.h"
-
-#include "DeviceManager.h"
-#include "D3D11Config.h"
 
 void Game::Initialize()
 {
@@ -44,9 +37,6 @@ void Game::Initialize()
 
 	// オブジェクト
 	AddGameObject<Player>();
-	AddGameObject<Enemy>()->SetPosition({ 5.0f, 0.0f, 5.0f });
-	AddGameObject<Enemy>()->SetPosition({ -5.0f, 0.0f, 5.0f });
-	AddGameObject<Enemy>()->SetPosition({ 0.0f, 0.0f, 5.0f });
 
 	// 2Dオブジェクト
 	AddGameObject<ScreenFilter>();

@@ -67,8 +67,8 @@ void Bullet::Update(double deltaTime)
 	_mEmitter->SetVelocity({ -mVelocity.x * 0.1f, -mVelocity.y * 0.1f, -mVelocity.z * 0.1f });
 
 	// 敵との衝突判定
-	auto enemys = Game::GetGameObjects<Enemy>();
-	for (auto enemy : enemys) {
+	auto enemies = Game::GetGameObjects<Enemy>();
+	for (auto enemy : enemies) {
 		// 距離計算
 		Vector3 dir = enemy->GetPosition() - position;
 		float length = dir.Length();
@@ -108,35 +108,40 @@ void Bullet::Draw() const
 
 void Bullet::hitEffect(Enemy* enemy)
 {
+	// 再生SEキー
+	std::string audio = "Hit";
+
 	// エミッタ寿命
 	double emitterLife = 0.5;
 
 	// シェイクの強さ
-	float shake = 0.15f;
+	float shake = 0.1f;
 
 	// ヒットストップの長さ
-	double hitStop = 0.1;
+	double hitStop = 0.025;
 
 	// 加算スコア
 	int score = 200;
 
 	// 敵死亡時は演出を強化
 	if (enemy->IsDestroy()) {
+		audio = "Destroy";
 		emitterLife = 1.0;
-		shake = 0.25f;
-		hitStop = 0.5;
+		shake = 0.2f;
+		hitStop = 0.2;
 		GameManager::ReduceEnemy();
 		score += 2000;
 
 		// 最後の敵の場合はさらに演出を強化
-		if (GameManager::GetEnemyCount() == 0) {
+		if (GameManager::GetWave() == 5 && GameManager::GetEnemyCount() == 0) {
 			emitterLife = 3.0;
-			GameManager::SetSlow(true);
+			shake = 0.3f;
+			hitStop = 0.75;
 		}
 	}
 
 	// ヒットSE
-	GameManager::AudioPlay("Hit");
+	GameManager::AudioPlay(audio);
 
 	// 爆発エフェクト
 	Game::AddGameObject<ParticleEmitter>()->LoadCSV("assets\\csv\\Explosion.csv")->SetEmitterLife(emitterLife)->

@@ -14,6 +14,7 @@
 	前方宣言
 ------------------------------------------------------------*/
 class AudioPlayer;
+class Timer;
 
 /*============================================================
 *	@class	: Player
@@ -25,6 +26,10 @@ private:
 	Vector3 mVelocity{ 0.0f, 0.0f, 0.0f };
 	Vector3 mAccel{ 0.0f, 0.0f, 0.0f };
 
+	// ショット間隔
+	Timer* _mShotInterval{ nullptr };
+
+	// HP
 	int mHP{ 100 };
 
 public:

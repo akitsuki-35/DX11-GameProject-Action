@@ -12,9 +12,11 @@
 #include "Game.h"
 #include "Result.h"
 #include "Camera.h"
-#include "Timer.h"
+#include "Enemy.h"
 #include "ParticleEmitter.h"
-#include "Input.h"
+#include "Timer.h"
+
+using namespace DirectX;
 
 void GameManager::Initialize()
 {
@@ -22,6 +24,9 @@ void GameManager::Initialize()
 	Transition::getInstance().Start(0.5, true);
 
 	_mGameAudios.clear();
+
+	// ウェーブ数初期化
+	mWave = 1;
 
 	// BGM読み込み・再生
 	mBGMVolume = 0.05f;
@@ -34,8 +39,11 @@ void GameManager::Initialize()
 	AudioPlayer* shot = AddComponent<AudioPlayer>(this)->LoadAudio("assets\\audio\\Shot.mp3")->SetVolume(0.1f);
 	_mGameAudios.emplace("Shot", shot);
 
-	AudioPlayer* hit = AddComponent<AudioPlayer>(this)->LoadAudio("assets\\audio\\Hit.mp3")->LoadAudio("assets\\audio\\Hit.mp3")->SetVolume(0.1f);
+	AudioPlayer* hit = AddComponent<AudioPlayer>(this)->LoadAudio("assets\\audio\\Hit.mp3")->SetVolume(0.25f);
 	_mGameAudios.emplace("Hit", hit);
+
+	AudioPlayer* destroy = AddComponent<AudioPlayer>(this)->LoadAudio("assets\\audio\\Destroy.mp3")->SetVolume(0.15f);
+	_mGameAudios.emplace("Destroy", destroy);
 
 	// タイマー
 	_mHitStop = AddComponent<Timer>(this);
@@ -43,6 +51,8 @@ void GameManager::Initialize()
 
 	// ステージ上のエフェクト
 	_mEffect = Game::AddGameObject<ParticleEmitter>()->LoadCSV("assets\\csv\\Effect.csv");
+
+	enemySpawn();
 }
 
 void GameManager::Finalize()
@@ -55,9 +65,16 @@ void GameManager::Update(double deltaTime)
 	// ステージエフェクト更新
 	stageEffectUpdate();
 
+	// ウェーブカウント増加と敵配置
+	if (mEnemyCount == 0 && _mHitStop->IsTimeUp()) {
+		mWave++;
+		enemySpawn();
+	}
+
 	// シーン遷移処理
 	// 1.遷移条件を満たしたら遷移までのウェイトタイマーをセット
-	if (mEnemyCount == 0 && !mTransitionWait && !_mSceneChangeTimer->GetEnable()) {
+	if (mWave == 6 && !mTransitionWait && !_mSceneChangeTimer->GetEnable()) {
+		GameManager::SetSlow(true);
 		_mSceneChangeTimer->Start(1.5);
 	}
 
@@ -95,6 +112,54 @@ void GameManager::Draw() const
 	GameObject::Draw();
 }
 
+void GameManager::EnemyCollision(GameObject& other, Vector3& position, float dt)
+{
+	auto enemies = Game::GetGameObjects<Enemy>();
+	for (auto enemy : enemies) {
+		if (enemy == dynamic_cast<Enemy*>(&other)) continue;
+
+		// 相手との距離を計算
+		Vector3 otherDir = position - enemy->GetPosition();
+		float distance = otherDir.Length();
+
+		// 半径の合計
+		float min = 4.0f;
+
+		if (distance < min && distance > 0.0f) {
+			otherDir.Normalize();
+
+			// めり込んでいる距離を計算
+			float overlap = min - distance;
+
+			// 押し出し
+			position += otherDir * overlap * 5.0f * dt;
+		}
+	}
+}
+
+void GameManager::ClampPosition(Vector3& position)
+{
+	// 座標のクランプ（グリッドの外には出られないようにする）
+	if (position.x < -50.0f) {
+		position.x = -50.0f;
+	}
+	else if (position.x > 50.0f) {
+		position.x = 50.0f;
+	}
+
+	if (position.z < -50.0f) {
+		position.z = -50.0f;
+	}
+	else if (position.z > 50.0f) {
+		position.z = 50.0f;
+	}
+
+	// y座標を0に補正
+	if (position.y != 0.0f) {
+		position.y = 0.0f;
+	}
+}
+
 void GameManager::AudioPlay(std::string key)
 {
 	// キーから登録オーディオを検索して再生する
@@ -124,9 +189,69 @@ void GameManager::SetSlow(bool isSlow)
 	Game::SetSlow(isSlow);
 }
 
-void GameManager::SceneChangeWait(double time)
+bool GameManager::IsTransition()
 {
-	_mSceneChangeTimer->Start(time);
+	return mTransitionWait || _mSceneChangeTimer->GetEnable();
+}
+
+void GameManager::enemySpawn()
+{
+	switch (mWave)
+	{
+	case 1:
+		Game::AddGameObject<Enemy>()->SetPosition({ -25.0f, 0.0f, 45.0f }).
+			SetRotation({ 0.0f, XMConvertToRadians(135.0f), 0.0f});
+		Game::AddGameObject<Enemy>()->SetPosition({ 25.0f, 0.0f, 45.0f }).
+			SetRotation({ 0.0f, XMConvertToRadians(-135.0f), 0.0f });
+		break;
+
+	case 2:
+		Game::AddGameObject<Enemy>()->SetPosition({ -30.0f, 0.0f, 30.0f }).
+			SetRotation({ 0.0f, XMConvertToRadians(135.0f), 0.0f });
+		Game::AddGameObject<Enemy>()->SetPosition({ -40.0f, 0.0f, 45.0f }).
+			SetRotation({ 0.0f, XMConvertToRadians(135.0f), 0.0f });
+		Game::AddGameObject<Enemy>()->SetPosition({ -45.0f, 0.0f, 25.0f }).
+			SetRotation({ 0.0f, XMConvertToRadians(135.0f), 0.0f });
+		break;
+
+	case 3:
+		Game::AddGameObject<Enemy>()->SetPosition({ 0.0f, 0.0f, 30.0f }).
+			SetRotation({ 0.0f, XMConvertToRadians(180.0f), 0.0f });
+		Game::AddGameObject<Enemy>()->SetPosition({ -25.0f, 0.0f, 45.0f }).
+			SetRotation({ 0.0f, XMConvertToRadians(180.0f), 0.0f });
+		Game::AddGameObject<Enemy>()->SetPosition({ 25.0f, 0.0f, 45.0f }).
+			SetRotation({ 0.0f, XMConvertToRadians(180.0f), 0.0f });
+		Game::AddGameObject<Enemy>()->SetPosition({ 0.0f, 0.0f, -45.0f }).
+			SetRotation({ 0.0f, 0.0f, 0.0f });
+		break;
+
+	case 4:
+		Game::AddGameObject<Enemy>()->SetPosition({ -30.0f, 0.0f, -30.0f }).
+			SetRotation({ 0.0f, XMConvertToRadians(45.0f), 0.0f });
+		Game::AddGameObject<Enemy>()->SetPosition({ -45.0f, 0.0f, -45.0f }).
+			SetRotation({ 0.0f, XMConvertToRadians(45.0f), 0.0f });
+		Game::AddGameObject<Enemy>()->SetPosition({ 30.0f, 0.0f, 30.0f }).
+			SetRotation({ 0.0f, XMConvertToRadians(-135.0f), 0.0f });
+		Game::AddGameObject<Enemy>()->SetPosition({ 45.0f, 0.0f, 45.0f }).
+			SetRotation({ 0.0f, XMConvertToRadians(-135.0f), 0.0f });
+		break;
+
+	case 5:
+		Game::AddGameObject<Enemy>()->SetPosition({ 0.0f, 0.0f, 45.0f }).
+			SetRotation({ 0.0f, XMConvertToRadians(180.0f), 0.0f });
+		Game::AddGameObject<Enemy>()->SetPosition({ -45.0f, 0.0f, 30.0f }).
+			SetRotation({ 0.0f, XMConvertToRadians(135.0f), 0.0f });
+		Game::AddGameObject<Enemy>()->SetPosition({ 45.0f, 0.0f, 30.0f }).
+			SetRotation({ 0.0f, XMConvertToRadians(-135.0f), 0.0f });
+		Game::AddGameObject<Enemy>()->SetPosition({ -30.0f, 0.0f, -30.0f }).
+			SetRotation({ 0.0f, XMConvertToRadians(45.0f), 0.0f });
+		Game::AddGameObject<Enemy>()->SetPosition({ 30.0f, 0.0f, -30.0f }).
+			SetRotation({ 0.0f, XMConvertToRadians(-45.0f), 0.0f });
+		break;
+
+	default:
+		break;
+	}
 }
 
 void GameManager::stageEffectUpdate()

@@ -19,9 +19,9 @@ using namespace DirectX;
 
 void Camera::Initialize()
 {
-	mTransform.SetPosition({ 0.0f, 5.0f, -50.0f });
+	mTransform.SetPosition({ 0.0f, 5.0f, 5.0f });
 
-	mTarget = Vector3(0.0f, 0.0f, -50.0f);
+	mTarget = Vector3(0.0f, 0.0f, 0.0f);
 
 	_mShakeTimer = AddComponent<Timer>(this);
 }

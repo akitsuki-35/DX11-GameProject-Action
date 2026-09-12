@@ -17,6 +17,7 @@
 ------------------------------------------------------------*/
 class Timer;
 class ParticleEmitter;
+class GameObject;
 
 /*============================================================
 *	@class	: GameManager
@@ -25,6 +26,9 @@ class ParticleEmitter;
 class GameManager : public GameObject
 {
 private:
+	// ウェーブ数
+	static inline int mWave{ 0 };
+
 	// 敵の数
 	static inline int mEnemyCount{ 0 };
 
@@ -61,6 +65,15 @@ public:
 	void Update(double deltaTime) override;
 	void Draw() const override;
 
+	// 簡易エネミー当たり判定
+	static void EnemyCollision(GameObject& other, Vector3& position, float dt);
+
+	// 座標クランプ
+	static void ClampPosition(Vector3& position);
+
+	// ウェーブ数取得
+	static int GetWave() { return mWave; }
+
 	// エネミーカウント関連
 	static int GetEnemyCount() { return mEnemyCount; }
 	static void AddEnemy() { mEnemyCount++; }
@@ -76,9 +89,12 @@ public:
 	// スローモーション
 	static void SetSlow(bool isSlow);
 
-	static void SceneChangeWait(double time);
+	// シーン遷移中かを判定
+	static bool IsTransition();
 
 private:
+	void enemySpawn();
+
 	// ステージエフェクト更新
 	void stageEffectUpdate();
 };

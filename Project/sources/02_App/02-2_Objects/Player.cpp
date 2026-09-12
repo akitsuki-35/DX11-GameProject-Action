@@ -13,15 +13,16 @@
 #include "Bullet.h"
 #include "Input.h"
 #include "ModelRenderer.h"
+#include "Timer.h"
 
 void Player::Initialize()
 {
 	// トランスフォームの初期化
 	mTransform = Transform(
-		{ 0.0f, 0.0f, -50.0f },
-		{ 0.0f, 0.0f,  0.0f },
-		{ 1.0f, 1.0f,  1.0f }
-	);		
+		{ 0.0f, 0.0f, 0.0f },
+		{ 0.0f, 0.0f, 0.0f },
+		{ 1.0f, 1.0f, 1.0f }
+	);
 
 	// 移動量と加速度の初期化
 	mVelocity = { 0.0f, 0.0f, 0.0f };
@@ -33,6 +34,8 @@ void Player::Initialize()
 		LoadTexture("Metalness.jpg", ModelRenderer::TextureType::Metalness)->
 		SetParameter({ 0.2f, 0.8f, 1.0f, 0.0f })->
 		LoadShader("PBR");
+
+	_mShotInterval = AddComponent<Timer>(this);
 }
 
 void Player::Finalize()
@@ -97,27 +100,22 @@ void Player::Update(double deltaTime)
 	// 移動処理
 	position += mVelocity * dt;
 
-	// 座標のクランプ（グリッドの外には出られないようにする）
-	if (position.x < -50.0f) {
-		position.x = -50.0f;
-	}
-	else if (position.x > 50.0f) {
-		position.x = 50.0f;
-	}
+	// 敵との衝突処理
+	GameManager::EnemyCollision(*this, position, dt);
 
-	if (position.z < -50.0f) {
-		position.z = -50.0f;
-	}
-	else if (position.z > 50.0f) {
-		position.z = 50.0f;
-	}
+	// 座標クランプ
+	GameManager::ClampPosition(position);
 
 	// 弾の発射
-	if (Input::GetKeyTrigger(VK_SPACE)) {
+	if(!_mShotInterval->GetEnable() && !GameManager::IsTransition())
+	if (Input::GetKeyPress(VK_SPACE)) {
 		GameManager::AudioPlay("Shot");
 		Bullet* bullet = Game::AddGameObject<Bullet>();
 		bullet->SetPosition(mTransform.GetPosition());
 		bullet->SetVelocity(forward * 100.0f);
+
+		// インターバルのセット
+		_mShotInterval->Start(0.2);
 	}
 
 	// 座標と回転をセット
